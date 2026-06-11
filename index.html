@@ -34,8 +34,8 @@
     background-size:56px 56px,56px 56px,76px 76px,76px 76px;
     background-position:0 0,28px 28px,18px 40px,50px 12px}
   .wrap{max-width:880px;margin:0 auto;padding:18px 14px 96px;position:relative;z-index:1}
-  .fiesta-bar{height:7px;border-radius:99px;margin-bottom:14px;box-shadow:0 3px 10px -4px rgba(62,99,221,.4);
-    background:repeating-linear-gradient(135deg,var(--green) 0 16px,var(--violet) 16px 32px,var(--gold) 32px 48px,var(--coral) 48px 64px)}
+  .fiesta-bar{height:14px;border-radius:5px;margin-bottom:14px;box-shadow:0 3px 10px -4px rgba(0,0,0,.25);
+    background:linear-gradient(to bottom, #FFDD00 0 50%, #0033A0 50% 75%, #EF3340 75% 100%)}
 
   header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;
     padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
@@ -414,12 +414,12 @@
   <section class="panel" id="panel-resultados">
     <div class="round-nav" id="nav-res"></div>
     <h3 class="round-title" id="res-title"></h3>
-    <div class="progress">Cargá el marcador real cuando termine cada partido. En eliminatorias, los equipos aparecen solos según las posiciones; si hay empate, elegí quién pasó por penales.</div>
+    <div class="progress">Carga el marcador real cuando termine cada partido. En eliminatorias, los equipos aparecen solos según las posiciones; si hay empate, elige quién pasó por penales.</div>
     <div class="card" id="resCard"></div>
   </section>
 
   <section class="panel" id="panel-cuadro">
-    <div class="progress" style="margin-bottom:12px">El camino a la final. Se completa solo a medida que cargás los resultados. El ganador de cada llave avanza resaltado.</div>
+    <div class="progress" style="margin-bottom:12px">El camino a la final. Se completa solo a medida que cargas los resultados. El ganador de cada llave avanza resaltado.</div>
     <div class="bracket-scroll"><div class="bracket" id="bracket"></div></div>
   </section>
 
@@ -436,7 +436,7 @@
   <section class="panel" id="panel-muro">
     <div class="pick-who"><label for="who-mu">Soy:</label><select class="sel" id="who-mu"></select></div>
     <div class="muro-box">
-      <input class="txt" id="mu-text" placeholder="Tirá tu chicana… 😏" maxlength="180" style="flex:1" />
+      <input class="txt" id="mu-text" placeholder="Escribe tu comentario… 😏" maxlength="180" style="flex:1" />
       <button class="btn" id="mu-send">Postear</button>
     </div>
     <div class="muro-emojis" id="muEmojis"></div>
@@ -449,28 +449,18 @@
       <div id="playerList"></div>
       <div class="add-bar">
         <input class="txt" id="p-name" placeholder="Nombre del jugador" style="flex:1" />
-        <button class="btn" id="addPlayer">Sumar al pozo</button>
+        <button class="btn" id="addPlayer">Agregar jugador</button>
       </div>
     </div>
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: Fases · jun 2026 · #2</span></span>
-    <button class="btn ghost" id="resetBtn" hidden>Reiniciar pozo</button>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: Fases · jun 2026 · #3</span></span>
+    <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
 
 <button class="fab" id="fabAdd" aria-label="Agregar jugador">➕ Jugador</button>
-<div class="modal-bg" id="addModal" hidden>
-  <div class="modal">
-    <div class="modal-h">➕ Nuevo jugador</div>
-    <input class="txt" id="fab-name" placeholder="Nombre del jugador" maxlength="40" autocomplete="off" />
-    <div class="modal-row">
-      <button class="btn ghost" id="fab-cancel">Cancelar</button>
-      <button class="btn" id="fab-ok">Agregar</button>
-    </div>
-  </div>
-</div>
 
 <script>
 const MATCHES = [{"id":"g1","round":"J1","group":"A","home":"México","away":"Sudáfrica","kickoff":"2026-06-11T19:00:00.000Z"},{"id":"g2","round":"J1","group":"A","home":"Corea del Sur","away":"Chequia","kickoff":"2026-06-12T02:00:00.000Z"},{"id":"g3","round":"J1","group":"B","home":"Canadá","away":"Bosnia y Herzegovina","kickoff":"2026-06-12T19:00:00.000Z"},{"id":"g4","round":"J1","group":"D","home":"Estados Unidos","away":"Paraguay","kickoff":"2026-06-13T01:00:00.000Z"},{"id":"g5","round":"J1","group":"B","home":"Catar","away":"Suiza","kickoff":"2026-06-13T19:00:00.000Z"},{"id":"g6","round":"J1","group":"C","home":"Brasil","away":"Marruecos","kickoff":"2026-06-13T22:00:00.000Z"},{"id":"g7","round":"J1","group":"C","home":"Haití","away":"Escocia","kickoff":"2026-06-14T01:00:00.000Z"},{"id":"g8","round":"J1","group":"D","home":"Australia","away":"Turquía","kickoff":"2026-06-14T04:00:00.000Z"},{"id":"g9","round":"J1","group":"E","home":"Alemania","away":"Curazao","kickoff":"2026-06-14T17:00:00.000Z"},{"id":"g10","round":"J1","group":"F","home":"Países Bajos","away":"Japón","kickoff":"2026-06-14T20:00:00.000Z"},{"id":"g11","round":"J1","group":"E","home":"Costa de Marfil","away":"Ecuador","kickoff":"2026-06-14T23:00:00.000Z"},{"id":"g12","round":"J1","group":"F","home":"Suecia","away":"Túnez","kickoff":"2026-06-15T02:00:00.000Z"},{"id":"g13","round":"J1","group":"H","home":"España","away":"Cabo Verde","kickoff":"2026-06-15T16:00:00.000Z"},{"id":"g14","round":"J1","group":"G","home":"Bélgica","away":"Egipto","kickoff":"2026-06-15T19:00:00.000Z"},{"id":"g15","round":"J1","group":"H","home":"Arabia Saudita","away":"Uruguay","kickoff":"2026-06-15T22:00:00.000Z"},{"id":"g16","round":"J1","group":"G","home":"Irán","away":"Nueva Zelanda","kickoff":"2026-06-16T01:00:00.000Z"},{"id":"g17","round":"J1","group":"I","home":"Francia","away":"Senegal","kickoff":"2026-06-16T19:00:00.000Z"},{"id":"g18","round":"J1","group":"I","home":"Irak","away":"Noruega","kickoff":"2026-06-16T22:00:00.000Z"},{"id":"g19","round":"J1","group":"J","home":"Argentina","away":"Argelia","kickoff":"2026-06-17T01:00:00.000Z"},{"id":"g20","round":"J1","group":"J","home":"Austria","away":"Jordania","kickoff":"2026-06-17T04:00:00.000Z"},{"id":"g21","round":"J1","group":"K","home":"Portugal","away":"RD Congo","kickoff":"2026-06-17T17:00:00.000Z"},{"id":"g22","round":"J1","group":"L","home":"Inglaterra","away":"Croacia","kickoff":"2026-06-17T20:00:00.000Z"},{"id":"g23","round":"J1","group":"L","home":"Ghana","away":"Panamá","kickoff":"2026-06-17T23:00:00.000Z"},{"id":"g24","round":"J1","group":"K","home":"Uzbekistán","away":"Colombia","kickoff":"2026-06-18T02:00:00.000Z"},{"id":"g25","round":"J2","group":"A","home":"Chequia","away":"Sudáfrica","kickoff":"2026-06-18T16:00:00.000Z"},{"id":"g26","round":"J2","group":"B","home":"Suiza","away":"Bosnia y Herzegovina","kickoff":"2026-06-18T19:00:00.000Z"},{"id":"g27","round":"J2","group":"B","home":"Canadá","away":"Catar","kickoff":"2026-06-18T22:00:00.000Z"},{"id":"g28","round":"J2","group":"A","home":"México","away":"Corea del Sur","kickoff":"2026-06-19T01:00:00.000Z"},{"id":"g29","round":"J2","group":"D","home":"Estados Unidos","away":"Australia","kickoff":"2026-06-19T19:00:00.000Z"},{"id":"g30","round":"J2","group":"C","home":"Escocia","away":"Marruecos","kickoff":"2026-06-19T22:00:00.000Z"},{"id":"g31","round":"J2","group":"C","home":"Brasil","away":"Haití","kickoff":"2026-06-20T00:30:00.000Z"},{"id":"g32","round":"J2","group":"D","home":"Turquía","away":"Paraguay","kickoff":"2026-06-20T03:00:00.000Z"},{"id":"g33","round":"J2","group":"F","home":"Países Bajos","away":"Suecia","kickoff":"2026-06-20T17:00:00.000Z"},{"id":"g34","round":"J2","group":"E","home":"Alemania","away":"Costa de Marfil","kickoff":"2026-06-20T20:00:00.000Z"},{"id":"g35","round":"J2","group":"E","home":"Ecuador","away":"Curazao","kickoff":"2026-06-21T00:00:00.000Z"},{"id":"g36","round":"J2","group":"F","home":"Túnez","away":"Japón","kickoff":"2026-06-21T04:00:00.000Z"},{"id":"g37","round":"J2","group":"H","home":"España","away":"Arabia Saudita","kickoff":"2026-06-21T16:00:00.000Z"},{"id":"g38","round":"J2","group":"G","home":"Bélgica","away":"Irán","kickoff":"2026-06-21T19:00:00.000Z"},{"id":"g39","round":"J2","group":"H","home":"Uruguay","away":"Cabo Verde","kickoff":"2026-06-21T22:00:00.000Z"},{"id":"g40","round":"J2","group":"G","home":"Nueva Zelanda","away":"Egipto","kickoff":"2026-06-22T01:00:00.000Z"},{"id":"g41","round":"J2","group":"J","home":"Argentina","away":"Austria","kickoff":"2026-06-22T17:00:00.000Z"},{"id":"g42","round":"J2","group":"I","home":"Francia","away":"Irak","kickoff":"2026-06-22T21:00:00.000Z"},{"id":"g43","round":"J2","group":"I","home":"Noruega","away":"Senegal","kickoff":"2026-06-23T00:00:00.000Z"},{"id":"g44","round":"J2","group":"J","home":"Jordania","away":"Argelia","kickoff":"2026-06-23T03:00:00.000Z"},{"id":"g45","round":"J2","group":"K","home":"Portugal","away":"Uzbekistán","kickoff":"2026-06-23T17:00:00.000Z"},{"id":"g46","round":"J2","group":"L","home":"Inglaterra","away":"Ghana","kickoff":"2026-06-23T20:00:00.000Z"},{"id":"g47","round":"J2","group":"L","home":"Panamá","away":"Croacia","kickoff":"2026-06-23T23:00:00.000Z"},{"id":"g48","round":"J2","group":"K","home":"Colombia","away":"RD Congo","kickoff":"2026-06-24T02:00:00.000Z"},{"id":"g49","round":"J3","group":"B","home":"Suiza","away":"Canadá","kickoff":"2026-06-24T19:00:00.000Z"},{"id":"g50","round":"J3","group":"B","home":"Bosnia y Herzegovina","away":"Catar","kickoff":"2026-06-24T19:00:00.000Z"},{"id":"g51","round":"J3","group":"C","home":"Marruecos","away":"Haití","kickoff":"2026-06-24T22:00:00.000Z"},{"id":"g52","round":"J3","group":"C","home":"Escocia","away":"Brasil","kickoff":"2026-06-24T22:00:00.000Z"},{"id":"g53","round":"J3","group":"A","home":"Sudáfrica","away":"Corea del Sur","kickoff":"2026-06-25T01:00:00.000Z"},{"id":"g54","round":"J3","group":"A","home":"Chequia","away":"México","kickoff":"2026-06-25T01:00:00.000Z"},{"id":"g55","round":"J3","group":"E","home":"Curazao","away":"Costa de Marfil","kickoff":"2026-06-25T20:00:00.000Z"},{"id":"g56","round":"J3","group":"E","home":"Ecuador","away":"Alemania","kickoff":"2026-06-25T20:00:00.000Z"},{"id":"g57","round":"J3","group":"F","home":"Túnez","away":"Países Bajos","kickoff":"2026-06-25T23:00:00.000Z"},{"id":"g58","round":"J3","group":"F","home":"Japón","away":"Suecia","kickoff":"2026-06-25T23:00:00.000Z"},{"id":"g59","round":"J3","group":"D","home":"Turquía","away":"Estados Unidos","kickoff":"2026-06-26T02:00:00.000Z"},{"id":"g60","round":"J3","group":"D","home":"Paraguay","away":"Australia","kickoff":"2026-06-26T02:00:00.000Z"},{"id":"g61","round":"J3","group":"I","home":"Noruega","away":"Francia","kickoff":"2026-06-26T19:00:00.000Z"},{"id":"g62","round":"J3","group":"I","home":"Senegal","away":"Irak","kickoff":"2026-06-26T19:00:00.000Z"},{"id":"g63","round":"J3","group":"H","home":"Cabo Verde","away":"Arabia Saudita","kickoff":"2026-06-27T00:00:00.000Z"},{"id":"g64","round":"J3","group":"H","home":"Uruguay","away":"España","kickoff":"2026-06-27T00:00:00.000Z"},{"id":"g65","round":"J3","group":"G","home":"Nueva Zelanda","away":"Bélgica","kickoff":"2026-06-27T03:00:00.000Z"},{"id":"g66","round":"J3","group":"G","home":"Egipto","away":"Irán","kickoff":"2026-06-27T03:00:00.000Z"},{"id":"g67","round":"J3","group":"L","home":"Panamá","away":"Inglaterra","kickoff":"2026-06-27T21:00:00.000Z"},{"id":"g68","round":"J3","group":"L","home":"Croacia","away":"Ghana","kickoff":"2026-06-27T21:00:00.000Z"},{"id":"g69","round":"J3","group":"K","home":"Colombia","away":"Portugal","kickoff":"2026-06-27T23:30:00.000Z"},{"id":"g70","round":"J3","group":"K","home":"RD Congo","away":"Uzbekistán","kickoff":"2026-06-27T23:30:00.000Z"},{"id":"g71","round":"J3","group":"J","home":"Argelia","away":"Austria","kickoff":"2026-06-28T02:00:00.000Z"},{"id":"g72","round":"J3","group":"J","home":"Jordania","away":"Argentina","kickoff":"2026-06-28T02:00:00.000Z"},{"id":"r32_1","round":"R32","group":null,"num":1,"kickoff":"2026-06-28T19:00:00.000Z","homeSpec":{"t":"rank","g":"A","r":2},"awaySpec":{"t":"rank","g":"B","r":2},"ph":{"home":"2.º A","away":"2.º B"},"note":"Ronda de 32 · Llave 1"},{"id":"r32_2","round":"R32","group":null,"num":2,"kickoff":"2026-06-29T17:00:00.000Z","homeSpec":{"t":"rank","g":"C","r":1},"awaySpec":{"t":"rank","g":"F","r":2},"ph":{"home":"1.º C","away":"2.º F"},"note":"Ronda de 32 · Llave 2"},{"id":"r32_3","round":"R32","group":null,"num":3,"kickoff":"2026-06-29T20:30:00.000Z","homeSpec":{"t":"rank","g":"E","r":1},"awaySpec":{"t":"third","allow":["A","B","C","D","F"]},"ph":{"home":"1.º E","away":"3.º (A/B/C/D/F)"},"note":"Ronda de 32 · Llave 3"},{"id":"r32_4","round":"R32","group":null,"num":4,"kickoff":"2026-06-30T01:00:00.000Z","homeSpec":{"t":"rank","g":"F","r":1},"awaySpec":{"t":"rank","g":"C","r":2},"ph":{"home":"1.º F","away":"2.º C"},"note":"Ronda de 32 · Llave 4"},{"id":"r32_5","round":"R32","group":null,"num":5,"kickoff":"2026-06-30T17:00:00.000Z","homeSpec":{"t":"rank","g":"E","r":2},"awaySpec":{"t":"rank","g":"I","r":2},"ph":{"home":"2.º E","away":"2.º I"},"note":"Ronda de 32 · Llave 5"},{"id":"r32_6","round":"R32","group":null,"num":6,"kickoff":"2026-06-30T21:00:00.000Z","homeSpec":{"t":"rank","g":"I","r":1},"awaySpec":{"t":"third","allow":["C","D","F","G","H"]},"ph":{"home":"1.º I","away":"3.º (C/D/F/G/H)"},"note":"Ronda de 32 · Llave 6"},{"id":"r32_7","round":"R32","group":null,"num":7,"kickoff":"2026-07-01T01:00:00.000Z","homeSpec":{"t":"rank","g":"A","r":1},"awaySpec":{"t":"third","allow":["C","E","F","H","I"]},"ph":{"home":"1.º A","away":"3.º (C/E/F/H/I)"},"note":"Ronda de 32 · Llave 7"},{"id":"r32_8","round":"R32","group":null,"num":8,"kickoff":"2026-07-01T16:00:00.000Z","homeSpec":{"t":"rank","g":"L","r":1},"awaySpec":{"t":"third","allow":["E","H","I","J","K"]},"ph":{"home":"1.º L","away":"3.º (E/H/I/J/K)"},"note":"Ronda de 32 · Llave 8"},{"id":"r32_9","round":"R32","group":null,"num":9,"kickoff":"2026-07-01T20:00:00.000Z","homeSpec":{"t":"rank","g":"G","r":1},"awaySpec":{"t":"third","allow":["A","E","H","I","J"]},"ph":{"home":"1.º G","away":"3.º (A/E/H/I/J)"},"note":"Ronda de 32 · Llave 9"},{"id":"r32_10","round":"R32","group":null,"num":10,"kickoff":"2026-07-02T00:00:00.000Z","homeSpec":{"t":"rank","g":"D","r":1},"awaySpec":{"t":"third","allow":["B","E","F","I","J"]},"ph":{"home":"1.º D","away":"3.º (B/E/F/I/J)"},"note":"Ronda de 32 · Llave 10"},{"id":"r32_11","round":"R32","group":null,"num":11,"kickoff":"2026-07-02T19:00:00.000Z","homeSpec":{"t":"rank","g":"H","r":1},"awaySpec":{"t":"rank","g":"J","r":2},"ph":{"home":"1.º H","away":"2.º J"},"note":"Ronda de 32 · Llave 11"},{"id":"r32_12","round":"R32","group":null,"num":12,"kickoff":"2026-07-02T23:00:00.000Z","homeSpec":{"t":"rank","g":"K","r":2},"awaySpec":{"t":"rank","g":"L","r":2},"ph":{"home":"2.º K","away":"2.º L"},"note":"Ronda de 32 · Llave 12"},{"id":"r32_13","round":"R32","group":null,"num":13,"kickoff":"2026-07-03T03:00:00.000Z","homeSpec":{"t":"rank","g":"B","r":1},"awaySpec":{"t":"third","allow":["E","F","G","I","J"]},"ph":{"home":"1.º B","away":"3.º (E/F/G/I/J)"},"note":"Ronda de 32 · Llave 13"},{"id":"r32_14","round":"R32","group":null,"num":14,"kickoff":"2026-07-03T18:00:00.000Z","homeSpec":{"t":"rank","g":"D","r":2},"awaySpec":{"t":"rank","g":"G","r":2},"ph":{"home":"2.º D","away":"2.º G"},"note":"Ronda de 32 · Llave 14"},{"id":"r32_15","round":"R32","group":null,"num":15,"kickoff":"2026-07-03T22:00:00.000Z","homeSpec":{"t":"rank","g":"J","r":1},"awaySpec":{"t":"rank","g":"H","r":2},"ph":{"home":"1.º J","away":"2.º H"},"note":"Ronda de 32 · Llave 15"},{"id":"r32_16","round":"R32","group":null,"num":16,"kickoff":"2026-07-04T01:30:00.000Z","homeSpec":{"t":"rank","g":"K","r":1},"awaySpec":{"t":"third","allow":["D","E","I","J","L"]},"ph":{"home":"1.º K","away":"3.º (D/E/I/J/L)"},"note":"Ronda de 32 · Llave 16"},{"id":"m89","round":"R16","group":null,"num":89,"kickoff":"2026-07-04T17:00:00.000Z","homeSpec":{"t":"W","m":"r32_1"},"awaySpec":{"t":"W","m":"r32_4"},"ph":{"home":"Ganador 1","away":"Ganador 4"},"note":"Octavos · Partido 89"},{"id":"m90","round":"R16","group":null,"num":90,"kickoff":"2026-07-04T21:00:00.000Z","homeSpec":{"t":"W","m":"r32_3"},"awaySpec":{"t":"W","m":"r32_6"},"ph":{"home":"Ganador 3","away":"Ganador 6"},"note":"Octavos · Partido 90"},{"id":"m91","round":"R16","group":null,"num":91,"kickoff":"2026-07-05T20:00:00.000Z","homeSpec":{"t":"W","m":"r32_2"},"awaySpec":{"t":"W","m":"r32_5"},"ph":{"home":"Ganador 2","away":"Ganador 5"},"note":"Octavos · Partido 91"},{"id":"m92","round":"R16","group":null,"num":92,"kickoff":"2026-07-06T00:00:00.000Z","homeSpec":{"t":"W","m":"r32_7"},"awaySpec":{"t":"W","m":"r32_8"},"ph":{"home":"Ganador 7","away":"Ganador 8"},"note":"Octavos · Partido 92"},{"id":"m93","round":"R16","group":null,"num":93,"kickoff":"2026-07-06T19:00:00.000Z","homeSpec":{"t":"W","m":"r32_12"},"awaySpec":{"t":"W","m":"r32_11"},"ph":{"home":"Ganador 12","away":"Ganador 11"},"note":"Octavos · Partido 93"},{"id":"m94","round":"R16","group":null,"num":94,"kickoff":"2026-07-07T00:00:00.000Z","homeSpec":{"t":"W","m":"r32_10"},"awaySpec":{"t":"W","m":"r32_9"},"ph":{"home":"Ganador 10","away":"Ganador 9"},"note":"Octavos · Partido 94"},{"id":"m95","round":"R16","group":null,"num":95,"kickoff":"2026-07-07T16:00:00.000Z","homeSpec":{"t":"W","m":"r32_15"},"awaySpec":{"t":"W","m":"r32_14"},"ph":{"home":"Ganador 15","away":"Ganador 14"},"note":"Octavos · Partido 95"},{"id":"m96","round":"R16","group":null,"num":96,"kickoff":"2026-07-07T20:00:00.000Z","homeSpec":{"t":"W","m":"r32_13"},"awaySpec":{"t":"W","m":"r32_16"},"ph":{"home":"Ganador 13","away":"Ganador 16"},"note":"Octavos · Partido 96"},{"id":"m97","round":"QF","group":null,"num":97,"kickoff":"2026-07-09T20:00:00.000Z","homeSpec":{"t":"W","m":"m89"},"awaySpec":{"t":"W","m":"m90"},"ph":{"home":"Ganador 89","away":"Ganador 90"},"note":"Cuartos · Partido 97"},{"id":"m98","round":"QF","group":null,"num":98,"kickoff":"2026-07-10T19:00:00.000Z","homeSpec":{"t":"W","m":"m93"},"awaySpec":{"t":"W","m":"m94"},"ph":{"home":"Ganador 93","away":"Ganador 94"},"note":"Cuartos · Partido 98"},{"id":"m99","round":"QF","group":null,"num":99,"kickoff":"2026-07-11T21:00:00.000Z","homeSpec":{"t":"W","m":"m91"},"awaySpec":{"t":"W","m":"m92"},"ph":{"home":"Ganador 91","away":"Ganador 92"},"note":"Cuartos · Partido 99"},{"id":"m100","round":"QF","group":null,"num":100,"kickoff":"2026-07-12T01:00:00.000Z","homeSpec":{"t":"W","m":"m95"},"awaySpec":{"t":"W","m":"m96"},"ph":{"home":"Ganador 95","away":"Ganador 96"},"note":"Cuartos · Partido 100"},{"id":"m101","round":"SF","group":null,"num":101,"kickoff":"2026-07-14T19:00:00.000Z","homeSpec":{"t":"W","m":"m97"},"awaySpec":{"t":"W","m":"m98"},"ph":{"home":"Ganador 97","away":"Ganador 98"},"note":"Semifinal · Partido 101"},{"id":"m102","round":"SF","group":null,"num":102,"kickoff":"2026-07-15T19:00:00.000Z","homeSpec":{"t":"W","m":"m99"},"awaySpec":{"t":"W","m":"m100"},"ph":{"home":"Ganador 99","away":"Ganador 100"},"note":"Semifinal · Partido 102"},{"id":"m3p","round":"3P","group":null,"num":103,"kickoff":"2026-07-18T21:00:00.000Z","homeSpec":{"t":"L","m":"m101"},"awaySpec":{"t":"L","m":"m102"},"ph":{"home":"Perdedor 101","away":"Perdedor 102"},"note":"Tercer puesto"},{"id":"mfinal","round":"F","group":null,"num":104,"kickoff":"2026-07-19T19:00:00.000Z","homeSpec":{"t":"W","m":"m101"},"awaySpec":{"t":"W","m":"m102"},"ph":{"home":"Ganador 101","away":"Ganador 102"},"note":"Final"}];
@@ -837,7 +827,7 @@ function checkCelebrate(){const now=currentExacts();
 /* ===== leaderboard ===== */
 function renderLeaderboard(){const box=document.getElementById("leaderboard");box.innerHTML="";
   const rows=standings();
-  if(rows.length===0){box.appendChild(emptyState("Todavía no hay jugadores","Sumá a la familia en la pestaña Jugadores y empezá a cargar pronósticos. Acá vas a ver en vivo la carrera por el primer puesto."));exactSeen=currentExacts();return;}
+  if(rows.length===0){box.appendChild(emptyState("Todavía no hay jugadores","Agrega a la familia en la pestaña Jugadores y empezá a cargar pronósticos. Acá vas a ver en vivo la carrera por el primer puesto."));exactSeen=currentExacts();return;}
   box.appendChild(el("div","lb-head","🏁 Cómo van las posiciones"));
   // ganador de la última fecha + movimiento
   const lastR=lastCompletedRound();let posBefore={},winnerIds=[],winnerPts=0;
@@ -916,7 +906,7 @@ function renderBracket(){const box=document.getElementById("bracket");if(!box)re
 
 /* ===== pronósticos ===== */
 function renderPlayersSelect(){const sel=document.getElementById("who");sel.innerHTML="";
-  if(data.participants.length===0){const o=el("option",null,"— agregá jugadores —");o.value="";sel.appendChild(o);currentWho=null;return;}
+  if(data.participants.length===0){const o=el("option",null,"— agrega jugadores —");o.value="";sel.appendChild(o);currentWho=null;return;}
   data.participants.forEach(p=>{const o=el("option",null,p.name);o.value=p.id;sel.appendChild(o);});
   if(!currentWho||!data.participants.find(p=>p.id===currentWho))currentWho=data.participants[0].id;sel.value=currentWho;}
 function flagFor(name){const c=FLAGS[name];if(!c)return null;
@@ -945,7 +935,7 @@ function renderPronosticos(){
   renderPlayersSelect();
   const card=document.getElementById("predCard");card.innerHTML="";
   const prog=document.getElementById("pron-progress");
-  if(!currentWho){prog.textContent="";card.appendChild(emptyState("Elegí un jugador","Cuando haya jugadores, cada uno se elige arriba y carga su marcador."));return;}
+  if(!currentWho){prog.textContent="";card.appendChild(emptyState("Elige un jugador","Cuando haya jugadores, cada uno se elige arriba y carga su marcador."));return;}
   const ms=viewMatches(v);
   data.predictions[currentWho]=data.predictions[currentWho]||{};const store=data.predictions[currentWho];
   const upd=()=>{const done=ms.filter(m=>{const p=store[m.id];return p&&p.home!=null&&p.away!=null;}).length;
@@ -996,7 +986,7 @@ function renderResultados(){
   sb2.append(left,tg);card.appendChild(sb2);
   card.appendChild(el("div","syncnote","Completa el marcador <b>real</b> de los partidos terminados para armar la Tabla. No toca los pronósticos de la familia."));
   const isKO=v.phase==="elim";
-  if(isKO)card.appendChild(el("div","banner","Los equipos se completan solos al cargar la ronda anterior. Si un cruce queda empatado, elegí abajo quién pasó por penales."));
+  if(isKO)card.appendChild(el("div","banner","Los equipos se completan solos al cargar la ronda anterior. Si un cruce queda empatado, elige abajo quién pasó por penales."));
   const ms=viewMatches(v);
   ms.forEach(m=>{const row=el("div","match");
     row.appendChild(el("div","eyebrow",matchEyebrow(m)));
@@ -1010,7 +1000,7 @@ function renderResultados(){
     sr.append(hi,el("span","vs","–"),ai);row.appendChild(sr);
     const st=el("div","status");
     if(played(m)){st.className="status done";st.textContent="resultado final";}
-    else if(started(m)){st.className="status lock";st.textContent="en juego — cargá el marcador";}
+    else if(started(m)){st.className="status lock";st.textContent="en juego — carga el marcador";}
     else{st.className="status soon";st.textContent="por jugar";}
     row.appendChild(st);
     if(isKO&&played(m)&&m.realHome===m.realAway){
@@ -1049,8 +1039,8 @@ function renderGrupos(){const grid=document.getElementById("groupsGrid");grid.in
 
 /* ===== jugadores ===== */
 function renderJugadores(){const list=document.getElementById("playerList");list.innerHTML="";
-  document.getElementById("player-count").textContent=`${data.participants.length} en el pozo`;
-  if(data.participants.length===0){list.appendChild(emptyState("Pozo vacío","Sumá a los participantes. Cada uno carga sus pronósticos en la pestaña Pronósticos."));return;}
+  document.getElementById("player-count").textContent=`${data.participants.length} jugadores`;
+  if(data.participants.length===0){list.appendChild(emptyState("Sin jugadores","Agrega a los participantes. Cada uno carga sus pronósticos en la pestaña Pronósticos."));return;}
   data.participants.forEach(p=>{const row=el("div","player-row");const left=el("div","pname");
     left.appendChild(el("div","avatar",initials(p.name)));left.appendChild(el("span",null,p.name));
     const del=el("button","btn danger","Quitar");del.style.cssText="padding:7px 12px;font-size:12px";
@@ -1066,17 +1056,17 @@ setInterval(()=>{const ae=document.activeElement;
 
 /* ===== apuestas especiales ===== */
 function fillWho(id){const sel=document.getElementById(id);if(!sel)return;sel.innerHTML="";
-  if(!data.participants.length){const o=el("option",null,"— agregá jugadores —");o.value="";sel.appendChild(o);return;}
+  if(!data.participants.length){const o=el("option",null,"— agrega jugadores —");o.value="";sel.appendChild(o);return;}
   data.participants.forEach(p=>{const o=el("option",null,p.name);o.value=p.id;sel.appendChild(o);});
   if(!currentWho||!data.participants.find(p=>p.id===currentWho))currentWho=data.participants[0].id;sel.value=currentWho;}
 function teamSelect(val,onCh,disabled){const sel=el("select","sel ap-sel");
-  const o0=el("option",null,"— elegí —");o0.value="";sel.appendChild(o0);
+  const o0=el("option",null,"— elige —");o0.value="";sel.appendChild(o0);
   TEAM_LIST.forEach(n=>{const o=el("option",null,n);o.value=n;sel.appendChild(o);});
   sel.value=val||"";sel.disabled=!!disabled;sel.onchange=()=>onCh(sel.value);return sel;}
 function renderApuestas(){
   fillWho("who-ap");
   const card=document.getElementById("apCard");if(!card)return;card.innerHTML="";
-  if(!data.participants.length){card.appendChild(emptyState("Todavía no hay jugadores","Sumá a la familia en Jugadores para cargar las apuestas especiales."));return;}
+  if(!data.participants.length){card.appendChild(emptyState("Todavía no hay jugadores","Agrega a la familia en Jugadores para cargar las apuestas especiales."));return;}
   const locked=specialLocked();
   const note=el("div","ap-note"+(locked?" lock":""));
   note.innerHTML=locked?"🔒 Las apuestas especiales están cerradas (ya arrancó el Mundial).":
@@ -1113,12 +1103,12 @@ function renderApuestas(){
   card.appendChild(list);
 }
 
-/* ===== muro de chicanas ===== */
+/* ===== muro de comentarios ===== */
 const MURO_EMOJIS=["😂","🔥","😱","👏","⚽","🥳","😭","🫣","💪","🤡"];
 function fmtMsgTime(ts){const d=new Date(ts),now=new Date();const same=d.toDateString()===now.toDateString();
   return same?d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}):d.toLocaleDateString(undefined,{day:'2-digit',month:'2-digit'})+" "+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});}
 function postMsg(text){text=(text||"").trim();if(!text)return;
-  if(!currentWho){toast("Elegí quién sos arriba 👆");return;}
+  if(!currentWho){toast("Elige quién sos arriba 👆");return;}
   const me=data.participants.find(p=>p.id===currentWho);
   data.messages=data.messages||[];
   data.messages.push({id:"m"+Date.now()+Math.random().toString(36).slice(2,6),name:me?me.name:"Anónimo",text:text.slice(0,180),ts:Date.now()});
@@ -1130,7 +1120,7 @@ function renderMuro(){
   if(em&&!em.childElementCount){MURO_EMOJIS.forEach(e=>{const b=el("button","emoji-b",e);b.onclick=()=>postMsg(e);em.appendChild(b);});}
   const list=document.getElementById("muroList");if(!list)return;list.innerHTML="";
   const msgs=(data.messages||[]).slice().sort((a,b)=>b.ts-a.ts);
-  if(!msgs.length){list.appendChild(emptyState("El muro está vacío","Tirá la primera chicana. Acá la familia comenta los partidos y se hace cargo de sus pronósticos. 😏"));return;}
+  if(!msgs.length){list.appendChild(emptyState("El muro está vacío","Escribe el primer comentario. Aquí la familia comenta los partidos y defiende sus pronósticos. 😏"));return;}
   msgs.forEach(mg=>{const r=el("div","msg");
     const av=el("div","msg-av");av.textContent=(mg.name||"?").slice(0,1).toUpperCase();
     const bd=el("div","msg-bd");
@@ -1163,7 +1153,7 @@ function phaseWinners(ph){if(phaseState(ph)!=="done")return [];
 function phaseCup(){const cnt={};data.participants.forEach(p=>cnt[p.id]=0);
   PHASES.forEach(ph=>phaseWinners(ph).forEach(w=>cnt[w.id]=(cnt[w.id]||0)+1));return cnt;}
 function renderFases(){const box=document.getElementById("fasesBox");if(!box)return;box.innerHTML="";
-  if(!data.participants.length){box.appendChild(emptyState("Todavía no hay jugadores","Sumá a la familia con el botón ➕ Jugador y arranca la competencia por fases."));return;}
+  if(!data.participants.length){box.appendChild(emptyState("Todavía no hay jugadores","Agrega a la familia con el botón ➕ Jugador y empieza la competencia por fases."));return;}
   // Copa de Fases
   const cup=phaseCup();
   const cupRows=data.participants.map(p=>({p,n:cup[p.id]||0})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n||a.p.name.localeCompare(b.p.name));
@@ -1177,7 +1167,7 @@ function renderFases(){const box=document.getElementById("fasesBox");if(!box)ret
     r.appendChild(el("span","fase-cup-t","🏆".repeat(Math.min(n,5))));
     r.appendChild(el("span","fase-cup-c",n+(n===1?" fase":" fases")));cl.appendChild(r);});cupCard.appendChild(cl);}
   box.appendChild(cupCard);
-  box.appendChild(el("div","fase-note","Cada fase es una competencia <b>aparte que arranca de cero</b>: todos vuelven a jugar con sus pronósticos. El que más puntos hace en la fase, la gana. Así todos compiten hasta el final. 💪"));
+  box.appendChild(el("div","fase-note","Cada fase es una competencia <b>aparte que empieza de cero</b>: todos vuelven a jugar con sus pronósticos. El que más puntos hace en la fase, la gana. Así todos compiten hasta el final. 💪"));
   // tarjetas por fase
   PHASES.forEach(ph=>{const st=phaseState(ph);const stand=phaseStandings(ph);const winners=phaseWinners(ph);
     const card=el("div","fase-card "+st);
@@ -1215,17 +1205,12 @@ document.getElementById("mu-send").onclick=()=>postMsg(document.getElementById("
 document.getElementById("mu-text").onkeydown=e=>{if(e.key==="Enter")postMsg(e.target.value);};
 document.getElementById("addPlayer").onclick=addPlayer;
 document.getElementById("p-name").addEventListener("keydown",e=>{if(e.key==="Enter")addPlayer();});
-// botón flotante para sumar jugador fácil
-const addModal=document.getElementById("addModal");
-function openAdd(){addModal.hidden=false;const i=document.getElementById("fab-name");i.value="";setTimeout(()=>i.focus(),60);}
-function closeAdd(){addModal.hidden=true;}
-function fabAddOk(){const i=document.getElementById("fab-name");const name=i.value.trim();if(!name)return;
-  const pid=addPlayerByName(name);if(pid){closeAdd();toast("✅ ¡"+name+" sumado a la polla!");}}
-document.getElementById("fabAdd").onclick=openAdd;
-document.getElementById("fab-cancel").onclick=closeAdd;
-document.getElementById("fab-ok").onclick=fabAddOk;
-addModal.onclick=e=>{if(e.target===addModal)closeAdd();};
-document.getElementById("fab-name").addEventListener("keydown",e=>{if(e.key==="Enter")fabAddOk();if(e.key==="Escape")closeAdd();});
+// botón flotante: lleva a la sección Jugadores para agregar uno cuando haga falta
+function goTab(name){document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x.dataset.tab===name?"true":"false"));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  const pn=document.getElementById("panel-"+name);if(pn)pn.classList.add("active");}
+document.getElementById("fabAdd").onclick=()=>{goTab("jugadores");
+  const i=document.getElementById("p-name");if(i){i.scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>i.focus(),140);}};
 function addPlayerByName(name){const n=(name||"").trim();if(!n)return null;
   const pid="p"+Math.random().toString(36).slice(2,8);data.participants.push({id:pid,name:n});data.predictions[pid]={};
   if(!currentWho){currentWho=pid;whoSet(currentWho);}save();renderAll();return pid;}
@@ -1233,12 +1218,12 @@ function addPlayer(){const inp=document.getElementById("p-name");if(addPlayerByN
 document.getElementById("resetBtn").onclick=async()=>{
   if(!confirm("¿Borrar jugadores, pronósticos y resultados? Los 104 partidos del Mundial se mantienen. Esto afecta a todos."))return;
   data=emptyData();currentWho=null;pron=defaultView();res={...pron};await save(true);renderAll();};
-// el botón de borrar todo queda oculto; aparece solo si agregás #reset al final del link
+// el botón de borrar todo queda oculto; aparece solo si agregas #reset al final del link
 function maybeShowReset(){const rb=document.getElementById("resetBtn");if(rb)rb.hidden=(location.hash.toLowerCase()!=="#reset");}
 window.addEventListener("hashchange",maybeShowReset);maybeShowReset();
 
 /* ===== boot ===== */
-(async()=>{document.getElementById("leaderboard").appendChild(emptyState("Cargando…","Trayendo el pozo compartido."));
+(async()=>{document.getElementById("leaderboard").appendChild(emptyState("Cargando…","Cargando la polla compartida."));
   await load();
   const savedWho=whoGet(); if(savedWho && data.participants.find(p=>p.id===savedWho)) currentWho=savedWho;
   pron=defaultView();res={...pron};saveTxt.textContent="Guardado · compartido";renderAll();
