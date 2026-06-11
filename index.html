@@ -19,22 +19,15 @@
   }
   *{box-sizing:border-box} html,body{margin:0}
   body{background:
-      radial-gradient(1100px 540px at 8% -10%, #CFDDFF 0%, transparent 56%),
-      radial-gradient(1000px 540px at 100% -8%, #FFE7A8 0%, transparent 54%),
-      radial-gradient(1000px 760px at 50% 120%, #E4D9FF 0%, transparent 62%),
-      radial-gradient(700px 500px at 100% 110%, #FFD7DF 0%, transparent 60%),var(--bg);
+      linear-gradient(180deg, #EDF3FA 0, #EDF3FA 140px, rgba(237,243,250,0) 330px),
+      repeating-linear-gradient(90deg, #2f8a4e 0 64px, #2b8149 64px 128px),
+      #2c8249;
     background-attachment:fixed;
     color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}
   body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-    background-image:
-      radial-gradient(circle, rgba(62,99,221,.10) 1.7px, transparent 1.9px),
-      radial-gradient(circle, rgba(245,165,36,.12) 1.7px, transparent 1.9px),
-      radial-gradient(circle, rgba(124,92,252,.09) 1.7px, transparent 1.9px),
-      radial-gradient(circle, rgba(240,73,107,.08) 1.7px, transparent 1.9px);
-    background-size:56px 56px,56px 56px,76px 76px,76px 76px;
-    background-position:0 0,28px 28px,18px 40px,50px 12px}
+    background:radial-gradient(130% 90% at 50% 18%, transparent 55%, rgba(0,0,0,.16))}
   .wrap{max-width:880px;margin:0 auto;padding:18px 14px 96px;position:relative;z-index:1}
-  .fiesta-bar{height:14px;border-radius:5px;margin-bottom:14px;box-shadow:0 3px 10px -4px rgba(0,0,0,.25);
+  .fiesta-bar{height:14px;border-radius:5px;margin-bottom:14px;box-shadow:0 3px 10px -4px rgba(0,0,0,.3);
     background:linear-gradient(to bottom, #FFDD00 0 50%, #0033A0 50% 75%, #EF3340 75% 100%)}
 
   header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;
@@ -84,14 +77,14 @@
   .rchip:hover{color:var(--ink);border-color:var(--line2)}
   .rchip[aria-current="true"]{background:var(--green);color:#fff;border-color:var(--green)}
 
-  .pick-who{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .pick-who{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px;box-shadow:var(--sh-sm)}
   .pick-who label{font-size:12px;color:var(--muted);font-weight:600}
   select.sel{background:var(--surface);border:1px solid var(--line2);color:var(--ink);border-radius:10px;
     padding:10px 12px;font-family:Inter;font-size:14px;font-weight:600;min-width:170px;box-shadow:var(--sh-sm)}
   select.sel:focus{outline:none;border-color:var(--green)}
 
   .round-title{font-family:Outfit;font-weight:800;letter-spacing:-.01em;font-size:19px;margin:0 0 2px;color:var(--ink)}
-  .progress{font-size:12px;color:var(--muted);margin-bottom:12px}.progress b{color:var(--green2)}
+  .progress{font-size:12px;color:var(--muted);margin-bottom:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 13px;line-height:1.5;box-shadow:var(--sh-sm)}.progress b{color:var(--green2)}
 
   .match{display:grid;grid-template-columns:1fr 1fr;
     grid-template-areas:"eyebrow eyebrow" "home away" "score score" "status status";
@@ -273,7 +266,7 @@
   .muro-emojis{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
   .emoji-b{appearance:none;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:5px 9px;font-size:16px;cursor:pointer;line-height:1}
   .emoji-b:hover{background:var(--surface2)}
-  .msg{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+  .msg{display:flex;gap:10px;padding:11px 12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;align-items:flex-start;box-shadow:var(--sh-sm)}
   .msg-av{width:34px;height:34px;flex:none;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-family:Outfit;font-weight:800;font-size:14px}
   .msg-bd{flex:1;min-width:0}
   .msg-hd{font-size:12.5px;color:var(--ink)}
@@ -321,11 +314,14 @@
   .modal-h{font-family:Outfit;font-weight:800;font-size:18px;color:var(--ink);margin-bottom:14px}
   .modal .txt{width:100%;margin-bottom:16px}
   .modal-row{display:flex;gap:10px;justify-content:flex-end}
-  /* estado de conexión */
-  .conn{font-size:12px;font-weight:600;border-radius:11px;padding:9px 13px;margin-bottom:10px;line-height:1.45}
-  .conn.ok{color:#0b7a3b;background:#E7F7EE;border:1px solid #BFE8CF}
-  .conn.bad{color:#b42318;background:#FEECEB;border:1px solid #F6C9C4}
-  .conn b{font-weight:800}
+  /* puntito de conexión en la esquina */
+  .conn-pill{position:fixed;left:14px;bottom:16px;z-index:80;display:flex;align-items:center;gap:7px;
+    background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:700;
+    box-shadow:0 8px 20px -8px rgba(15,27,45,.3)}
+  .conn-pill .cdot{width:9px;height:9px;border-radius:50%;background:#16B364;box-shadow:0 0 0 3px rgba(22,179,100,.2)}
+  .conn-pill.ok{color:#0b7a3b}
+  .conn-pill.bad{color:#b42318}
+  .conn-pill.bad .cdot{background:#F0496B;box-shadow:0 0 0 3px rgba(240,73,107,.2)}
   /* ===== juego por fases ===== */
   .fase-cup{background:linear-gradient(180deg,#FFFCF2,#fff);border:1px solid #FBD78B;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 12px 30px -18px rgba(245,165,36,.5)}
   .fase-cup-h{font-family:Outfit;font-weight:800;font-size:17px;color:var(--ink)}
@@ -342,7 +338,10 @@
   .fase-note b{color:var(--green2)}
   .fase-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:11px;box-shadow:var(--sh-sm)}
   .fase-card.live{border-color:#FBD78B;box-shadow:0 10px 26px -16px rgba(245,165,36,.5)}
-  .fase-card.soon{opacity:.72}
+  .fase-card.open{border-style:dashed;border-color:var(--line2)}
+  .fase-st.open{color:var(--green2);background:var(--green-soft);border:1px solid #D5DDF8}
+  .fase-open-msg{font-size:12.5px;color:var(--muted);line-height:1.5;padding:2px 0}
+  .fase-open-msg b{color:var(--green2)}
   .fase-head{display:flex;align-items:center;gap:11px;margin-bottom:10px}
   .fase-emoji{font-size:22px;line-height:1}
   .fase-ttl{flex:1;min-width:0}
@@ -455,12 +454,13 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: Fases · jun 2026 · #3</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: Fases · jun 2026 · #4</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
 
 <button class="fab" id="fabAdd" aria-label="Agregar jugador">➕ Jugador</button>
+<div class="conn-pill" id="connPill" hidden></div>
 
 <script>
 const MATCHES = [{"id":"g1","round":"J1","group":"A","home":"México","away":"Sudáfrica","kickoff":"2026-06-11T19:00:00.000Z"},{"id":"g2","round":"J1","group":"A","home":"Corea del Sur","away":"Chequia","kickoff":"2026-06-12T02:00:00.000Z"},{"id":"g3","round":"J1","group":"B","home":"Canadá","away":"Bosnia y Herzegovina","kickoff":"2026-06-12T19:00:00.000Z"},{"id":"g4","round":"J1","group":"D","home":"Estados Unidos","away":"Paraguay","kickoff":"2026-06-13T01:00:00.000Z"},{"id":"g5","round":"J1","group":"B","home":"Catar","away":"Suiza","kickoff":"2026-06-13T19:00:00.000Z"},{"id":"g6","round":"J1","group":"C","home":"Brasil","away":"Marruecos","kickoff":"2026-06-13T22:00:00.000Z"},{"id":"g7","round":"J1","group":"C","home":"Haití","away":"Escocia","kickoff":"2026-06-14T01:00:00.000Z"},{"id":"g8","round":"J1","group":"D","home":"Australia","away":"Turquía","kickoff":"2026-06-14T04:00:00.000Z"},{"id":"g9","round":"J1","group":"E","home":"Alemania","away":"Curazao","kickoff":"2026-06-14T17:00:00.000Z"},{"id":"g10","round":"J1","group":"F","home":"Países Bajos","away":"Japón","kickoff":"2026-06-14T20:00:00.000Z"},{"id":"g11","round":"J1","group":"E","home":"Costa de Marfil","away":"Ecuador","kickoff":"2026-06-14T23:00:00.000Z"},{"id":"g12","round":"J1","group":"F","home":"Suecia","away":"Túnez","kickoff":"2026-06-15T02:00:00.000Z"},{"id":"g13","round":"J1","group":"H","home":"España","away":"Cabo Verde","kickoff":"2026-06-15T16:00:00.000Z"},{"id":"g14","round":"J1","group":"G","home":"Bélgica","away":"Egipto","kickoff":"2026-06-15T19:00:00.000Z"},{"id":"g15","round":"J1","group":"H","home":"Arabia Saudita","away":"Uruguay","kickoff":"2026-06-15T22:00:00.000Z"},{"id":"g16","round":"J1","group":"G","home":"Irán","away":"Nueva Zelanda","kickoff":"2026-06-16T01:00:00.000Z"},{"id":"g17","round":"J1","group":"I","home":"Francia","away":"Senegal","kickoff":"2026-06-16T19:00:00.000Z"},{"id":"g18","round":"J1","group":"I","home":"Irak","away":"Noruega","kickoff":"2026-06-16T22:00:00.000Z"},{"id":"g19","round":"J1","group":"J","home":"Argentina","away":"Argelia","kickoff":"2026-06-17T01:00:00.000Z"},{"id":"g20","round":"J1","group":"J","home":"Austria","away":"Jordania","kickoff":"2026-06-17T04:00:00.000Z"},{"id":"g21","round":"J1","group":"K","home":"Portugal","away":"RD Congo","kickoff":"2026-06-17T17:00:00.000Z"},{"id":"g22","round":"J1","group":"L","home":"Inglaterra","away":"Croacia","kickoff":"2026-06-17T20:00:00.000Z"},{"id":"g23","round":"J1","group":"L","home":"Ghana","away":"Panamá","kickoff":"2026-06-17T23:00:00.000Z"},{"id":"g24","round":"J1","group":"K","home":"Uzbekistán","away":"Colombia","kickoff":"2026-06-18T02:00:00.000Z"},{"id":"g25","round":"J2","group":"A","home":"Chequia","away":"Sudáfrica","kickoff":"2026-06-18T16:00:00.000Z"},{"id":"g26","round":"J2","group":"B","home":"Suiza","away":"Bosnia y Herzegovina","kickoff":"2026-06-18T19:00:00.000Z"},{"id":"g27","round":"J2","group":"B","home":"Canadá","away":"Catar","kickoff":"2026-06-18T22:00:00.000Z"},{"id":"g28","round":"J2","group":"A","home":"México","away":"Corea del Sur","kickoff":"2026-06-19T01:00:00.000Z"},{"id":"g29","round":"J2","group":"D","home":"Estados Unidos","away":"Australia","kickoff":"2026-06-19T19:00:00.000Z"},{"id":"g30","round":"J2","group":"C","home":"Escocia","away":"Marruecos","kickoff":"2026-06-19T22:00:00.000Z"},{"id":"g31","round":"J2","group":"C","home":"Brasil","away":"Haití","kickoff":"2026-06-20T00:30:00.000Z"},{"id":"g32","round":"J2","group":"D","home":"Turquía","away":"Paraguay","kickoff":"2026-06-20T03:00:00.000Z"},{"id":"g33","round":"J2","group":"F","home":"Países Bajos","away":"Suecia","kickoff":"2026-06-20T17:00:00.000Z"},{"id":"g34","round":"J2","group":"E","home":"Alemania","away":"Costa de Marfil","kickoff":"2026-06-20T20:00:00.000Z"},{"id":"g35","round":"J2","group":"E","home":"Ecuador","away":"Curazao","kickoff":"2026-06-21T00:00:00.000Z"},{"id":"g36","round":"J2","group":"F","home":"Túnez","away":"Japón","kickoff":"2026-06-21T04:00:00.000Z"},{"id":"g37","round":"J2","group":"H","home":"España","away":"Arabia Saudita","kickoff":"2026-06-21T16:00:00.000Z"},{"id":"g38","round":"J2","group":"G","home":"Bélgica","away":"Irán","kickoff":"2026-06-21T19:00:00.000Z"},{"id":"g39","round":"J2","group":"H","home":"Uruguay","away":"Cabo Verde","kickoff":"2026-06-21T22:00:00.000Z"},{"id":"g40","round":"J2","group":"G","home":"Nueva Zelanda","away":"Egipto","kickoff":"2026-06-22T01:00:00.000Z"},{"id":"g41","round":"J2","group":"J","home":"Argentina","away":"Austria","kickoff":"2026-06-22T17:00:00.000Z"},{"id":"g42","round":"J2","group":"I","home":"Francia","away":"Irak","kickoff":"2026-06-22T21:00:00.000Z"},{"id":"g43","round":"J2","group":"I","home":"Noruega","away":"Senegal","kickoff":"2026-06-23T00:00:00.000Z"},{"id":"g44","round":"J2","group":"J","home":"Jordania","away":"Argelia","kickoff":"2026-06-23T03:00:00.000Z"},{"id":"g45","round":"J2","group":"K","home":"Portugal","away":"Uzbekistán","kickoff":"2026-06-23T17:00:00.000Z"},{"id":"g46","round":"J2","group":"L","home":"Inglaterra","away":"Ghana","kickoff":"2026-06-23T20:00:00.000Z"},{"id":"g47","round":"J2","group":"L","home":"Panamá","away":"Croacia","kickoff":"2026-06-23T23:00:00.000Z"},{"id":"g48","round":"J2","group":"K","home":"Colombia","away":"RD Congo","kickoff":"2026-06-24T02:00:00.000Z"},{"id":"g49","round":"J3","group":"B","home":"Suiza","away":"Canadá","kickoff":"2026-06-24T19:00:00.000Z"},{"id":"g50","round":"J3","group":"B","home":"Bosnia y Herzegovina","away":"Catar","kickoff":"2026-06-24T19:00:00.000Z"},{"id":"g51","round":"J3","group":"C","home":"Marruecos","away":"Haití","kickoff":"2026-06-24T22:00:00.000Z"},{"id":"g52","round":"J3","group":"C","home":"Escocia","away":"Brasil","kickoff":"2026-06-24T22:00:00.000Z"},{"id":"g53","round":"J3","group":"A","home":"Sudáfrica","away":"Corea del Sur","kickoff":"2026-06-25T01:00:00.000Z"},{"id":"g54","round":"J3","group":"A","home":"Chequia","away":"México","kickoff":"2026-06-25T01:00:00.000Z"},{"id":"g55","round":"J3","group":"E","home":"Curazao","away":"Costa de Marfil","kickoff":"2026-06-25T20:00:00.000Z"},{"id":"g56","round":"J3","group":"E","home":"Ecuador","away":"Alemania","kickoff":"2026-06-25T20:00:00.000Z"},{"id":"g57","round":"J3","group":"F","home":"Túnez","away":"Países Bajos","kickoff":"2026-06-25T23:00:00.000Z"},{"id":"g58","round":"J3","group":"F","home":"Japón","away":"Suecia","kickoff":"2026-06-25T23:00:00.000Z"},{"id":"g59","round":"J3","group":"D","home":"Turquía","away":"Estados Unidos","kickoff":"2026-06-26T02:00:00.000Z"},{"id":"g60","round":"J3","group":"D","home":"Paraguay","away":"Australia","kickoff":"2026-06-26T02:00:00.000Z"},{"id":"g61","round":"J3","group":"I","home":"Noruega","away":"Francia","kickoff":"2026-06-26T19:00:00.000Z"},{"id":"g62","round":"J3","group":"I","home":"Senegal","away":"Irak","kickoff":"2026-06-26T19:00:00.000Z"},{"id":"g63","round":"J3","group":"H","home":"Cabo Verde","away":"Arabia Saudita","kickoff":"2026-06-27T00:00:00.000Z"},{"id":"g64","round":"J3","group":"H","home":"Uruguay","away":"España","kickoff":"2026-06-27T00:00:00.000Z"},{"id":"g65","round":"J3","group":"G","home":"Nueva Zelanda","away":"Bélgica","kickoff":"2026-06-27T03:00:00.000Z"},{"id":"g66","round":"J3","group":"G","home":"Egipto","away":"Irán","kickoff":"2026-06-27T03:00:00.000Z"},{"id":"g67","round":"J3","group":"L","home":"Panamá","away":"Inglaterra","kickoff":"2026-06-27T21:00:00.000Z"},{"id":"g68","round":"J3","group":"L","home":"Croacia","away":"Ghana","kickoff":"2026-06-27T21:00:00.000Z"},{"id":"g69","round":"J3","group":"K","home":"Colombia","away":"Portugal","kickoff":"2026-06-27T23:30:00.000Z"},{"id":"g70","round":"J3","group":"K","home":"RD Congo","away":"Uzbekistán","kickoff":"2026-06-27T23:30:00.000Z"},{"id":"g71","round":"J3","group":"J","home":"Argelia","away":"Austria","kickoff":"2026-06-28T02:00:00.000Z"},{"id":"g72","round":"J3","group":"J","home":"Jordania","away":"Argentina","kickoff":"2026-06-28T02:00:00.000Z"},{"id":"r32_1","round":"R32","group":null,"num":1,"kickoff":"2026-06-28T19:00:00.000Z","homeSpec":{"t":"rank","g":"A","r":2},"awaySpec":{"t":"rank","g":"B","r":2},"ph":{"home":"2.º A","away":"2.º B"},"note":"Ronda de 32 · Llave 1"},{"id":"r32_2","round":"R32","group":null,"num":2,"kickoff":"2026-06-29T17:00:00.000Z","homeSpec":{"t":"rank","g":"C","r":1},"awaySpec":{"t":"rank","g":"F","r":2},"ph":{"home":"1.º C","away":"2.º F"},"note":"Ronda de 32 · Llave 2"},{"id":"r32_3","round":"R32","group":null,"num":3,"kickoff":"2026-06-29T20:30:00.000Z","homeSpec":{"t":"rank","g":"E","r":1},"awaySpec":{"t":"third","allow":["A","B","C","D","F"]},"ph":{"home":"1.º E","away":"3.º (A/B/C/D/F)"},"note":"Ronda de 32 · Llave 3"},{"id":"r32_4","round":"R32","group":null,"num":4,"kickoff":"2026-06-30T01:00:00.000Z","homeSpec":{"t":"rank","g":"F","r":1},"awaySpec":{"t":"rank","g":"C","r":2},"ph":{"home":"1.º F","away":"2.º C"},"note":"Ronda de 32 · Llave 4"},{"id":"r32_5","round":"R32","group":null,"num":5,"kickoff":"2026-06-30T17:00:00.000Z","homeSpec":{"t":"rank","g":"E","r":2},"awaySpec":{"t":"rank","g":"I","r":2},"ph":{"home":"2.º E","away":"2.º I"},"note":"Ronda de 32 · Llave 5"},{"id":"r32_6","round":"R32","group":null,"num":6,"kickoff":"2026-06-30T21:00:00.000Z","homeSpec":{"t":"rank","g":"I","r":1},"awaySpec":{"t":"third","allow":["C","D","F","G","H"]},"ph":{"home":"1.º I","away":"3.º (C/D/F/G/H)"},"note":"Ronda de 32 · Llave 6"},{"id":"r32_7","round":"R32","group":null,"num":7,"kickoff":"2026-07-01T01:00:00.000Z","homeSpec":{"t":"rank","g":"A","r":1},"awaySpec":{"t":"third","allow":["C","E","F","H","I"]},"ph":{"home":"1.º A","away":"3.º (C/E/F/H/I)"},"note":"Ronda de 32 · Llave 7"},{"id":"r32_8","round":"R32","group":null,"num":8,"kickoff":"2026-07-01T16:00:00.000Z","homeSpec":{"t":"rank","g":"L","r":1},"awaySpec":{"t":"third","allow":["E","H","I","J","K"]},"ph":{"home":"1.º L","away":"3.º (E/H/I/J/K)"},"note":"Ronda de 32 · Llave 8"},{"id":"r32_9","round":"R32","group":null,"num":9,"kickoff":"2026-07-01T20:00:00.000Z","homeSpec":{"t":"rank","g":"G","r":1},"awaySpec":{"t":"third","allow":["A","E","H","I","J"]},"ph":{"home":"1.º G","away":"3.º (A/E/H/I/J)"},"note":"Ronda de 32 · Llave 9"},{"id":"r32_10","round":"R32","group":null,"num":10,"kickoff":"2026-07-02T00:00:00.000Z","homeSpec":{"t":"rank","g":"D","r":1},"awaySpec":{"t":"third","allow":["B","E","F","I","J"]},"ph":{"home":"1.º D","away":"3.º (B/E/F/I/J)"},"note":"Ronda de 32 · Llave 10"},{"id":"r32_11","round":"R32","group":null,"num":11,"kickoff":"2026-07-02T19:00:00.000Z","homeSpec":{"t":"rank","g":"H","r":1},"awaySpec":{"t":"rank","g":"J","r":2},"ph":{"home":"1.º H","away":"2.º J"},"note":"Ronda de 32 · Llave 11"},{"id":"r32_12","round":"R32","group":null,"num":12,"kickoff":"2026-07-02T23:00:00.000Z","homeSpec":{"t":"rank","g":"K","r":2},"awaySpec":{"t":"rank","g":"L","r":2},"ph":{"home":"2.º K","away":"2.º L"},"note":"Ronda de 32 · Llave 12"},{"id":"r32_13","round":"R32","group":null,"num":13,"kickoff":"2026-07-03T03:00:00.000Z","homeSpec":{"t":"rank","g":"B","r":1},"awaySpec":{"t":"third","allow":["E","F","G","I","J"]},"ph":{"home":"1.º B","away":"3.º (E/F/G/I/J)"},"note":"Ronda de 32 · Llave 13"},{"id":"r32_14","round":"R32","group":null,"num":14,"kickoff":"2026-07-03T18:00:00.000Z","homeSpec":{"t":"rank","g":"D","r":2},"awaySpec":{"t":"rank","g":"G","r":2},"ph":{"home":"2.º D","away":"2.º G"},"note":"Ronda de 32 · Llave 14"},{"id":"r32_15","round":"R32","group":null,"num":15,"kickoff":"2026-07-03T22:00:00.000Z","homeSpec":{"t":"rank","g":"J","r":1},"awaySpec":{"t":"rank","g":"H","r":2},"ph":{"home":"1.º J","away":"2.º H"},"note":"Ronda de 32 · Llave 15"},{"id":"r32_16","round":"R32","group":null,"num":16,"kickoff":"2026-07-04T01:30:00.000Z","homeSpec":{"t":"rank","g":"K","r":1},"awaySpec":{"t":"third","allow":["D","E","I","J","L"]},"ph":{"home":"1.º K","away":"3.º (D/E/I/J/L)"},"note":"Ronda de 32 · Llave 16"},{"id":"m89","round":"R16","group":null,"num":89,"kickoff":"2026-07-04T17:00:00.000Z","homeSpec":{"t":"W","m":"r32_1"},"awaySpec":{"t":"W","m":"r32_4"},"ph":{"home":"Ganador 1","away":"Ganador 4"},"note":"Octavos · Partido 89"},{"id":"m90","round":"R16","group":null,"num":90,"kickoff":"2026-07-04T21:00:00.000Z","homeSpec":{"t":"W","m":"r32_3"},"awaySpec":{"t":"W","m":"r32_6"},"ph":{"home":"Ganador 3","away":"Ganador 6"},"note":"Octavos · Partido 90"},{"id":"m91","round":"R16","group":null,"num":91,"kickoff":"2026-07-05T20:00:00.000Z","homeSpec":{"t":"W","m":"r32_2"},"awaySpec":{"t":"W","m":"r32_5"},"ph":{"home":"Ganador 2","away":"Ganador 5"},"note":"Octavos · Partido 91"},{"id":"m92","round":"R16","group":null,"num":92,"kickoff":"2026-07-06T00:00:00.000Z","homeSpec":{"t":"W","m":"r32_7"},"awaySpec":{"t":"W","m":"r32_8"},"ph":{"home":"Ganador 7","away":"Ganador 8"},"note":"Octavos · Partido 92"},{"id":"m93","round":"R16","group":null,"num":93,"kickoff":"2026-07-06T19:00:00.000Z","homeSpec":{"t":"W","m":"r32_12"},"awaySpec":{"t":"W","m":"r32_11"},"ph":{"home":"Ganador 12","away":"Ganador 11"},"note":"Octavos · Partido 93"},{"id":"m94","round":"R16","group":null,"num":94,"kickoff":"2026-07-07T00:00:00.000Z","homeSpec":{"t":"W","m":"r32_10"},"awaySpec":{"t":"W","m":"r32_9"},"ph":{"home":"Ganador 10","away":"Ganador 9"},"note":"Octavos · Partido 94"},{"id":"m95","round":"R16","group":null,"num":95,"kickoff":"2026-07-07T16:00:00.000Z","homeSpec":{"t":"W","m":"r32_15"},"awaySpec":{"t":"W","m":"r32_14"},"ph":{"home":"Ganador 15","away":"Ganador 14"},"note":"Octavos · Partido 95"},{"id":"m96","round":"R16","group":null,"num":96,"kickoff":"2026-07-07T20:00:00.000Z","homeSpec":{"t":"W","m":"r32_13"},"awaySpec":{"t":"W","m":"r32_16"},"ph":{"home":"Ganador 13","away":"Ganador 16"},"note":"Octavos · Partido 96"},{"id":"m97","round":"QF","group":null,"num":97,"kickoff":"2026-07-09T20:00:00.000Z","homeSpec":{"t":"W","m":"m89"},"awaySpec":{"t":"W","m":"m90"},"ph":{"home":"Ganador 89","away":"Ganador 90"},"note":"Cuartos · Partido 97"},{"id":"m98","round":"QF","group":null,"num":98,"kickoff":"2026-07-10T19:00:00.000Z","homeSpec":{"t":"W","m":"m93"},"awaySpec":{"t":"W","m":"m94"},"ph":{"home":"Ganador 93","away":"Ganador 94"},"note":"Cuartos · Partido 98"},{"id":"m99","round":"QF","group":null,"num":99,"kickoff":"2026-07-11T21:00:00.000Z","homeSpec":{"t":"W","m":"m91"},"awaySpec":{"t":"W","m":"m92"},"ph":{"home":"Ganador 91","away":"Ganador 92"},"note":"Cuartos · Partido 99"},{"id":"m100","round":"QF","group":null,"num":100,"kickoff":"2026-07-12T01:00:00.000Z","homeSpec":{"t":"W","m":"m95"},"awaySpec":{"t":"W","m":"m96"},"ph":{"home":"Ganador 95","away":"Ganador 96"},"note":"Cuartos · Partido 100"},{"id":"m101","round":"SF","group":null,"num":101,"kickoff":"2026-07-14T19:00:00.000Z","homeSpec":{"t":"W","m":"m97"},"awaySpec":{"t":"W","m":"m98"},"ph":{"home":"Ganador 97","away":"Ganador 98"},"note":"Semifinal · Partido 101"},{"id":"m102","round":"SF","group":null,"num":102,"kickoff":"2026-07-15T19:00:00.000Z","homeSpec":{"t":"W","m":"m99"},"awaySpec":{"t":"W","m":"m100"},"ph":{"home":"Ganador 99","away":"Ganador 100"},"note":"Semifinal · Partido 102"},{"id":"m3p","round":"3P","group":null,"num":103,"kickoff":"2026-07-18T21:00:00.000Z","homeSpec":{"t":"L","m":"m101"},"awaySpec":{"t":"L","m":"m102"},"ph":{"home":"Perdedor 101","away":"Perdedor 102"},"note":"Tercer puesto"},{"id":"mfinal","round":"F","group":null,"num":104,"kickoff":"2026-07-19T19:00:00.000Z","homeSpec":{"t":"W","m":"m101"},"awaySpec":{"t":"W","m":"m102"},"ph":{"home":"Ganador 101","away":"Ganador 102"},"note":"Final"}];
@@ -651,22 +651,23 @@ async function load(){
 }
 function startPolling(){ if(!SB)return;
   setInterval(async()=>{ if(busy)return; const ae=document.activeElement; if(ae&&ae.tagName==="INPUT")return;
-    try{const r=await sbFetch(); if(r&&JSON.stringify(r)!==JSON.stringify(data)){data=r;normalize();renderAll();}}catch(e){}
+    try{const r=await sbFetch(); sbState="ok"; if(r&&JSON.stringify(r)!==JSON.stringify(data)){data=r;normalize();renderAll();} updateConnPill();}catch(e){sbState="fail";updateConnPill();}
   },5000);
 }
 function renderShare(){ const bar=document.getElementById("shareBar"); if(!bar)return;
   if(CLAUDE){bar.innerHTML='<div class="share note">👨‍👩‍👧‍👦 Vista previa dentro de Claude. Subí el <b>index.html</b> a GitHub Pages o Vercel (con tu Supabase configurado) para que entre la familia.</div>';return;}
   if(!SB){bar.innerHTML='<div class="share note">⚙️ Falta conectar la base de datos. Editá <b>SUPABASE_URL</b> y <b>SUPABASE_ANON</b> arriba del &lt;script&gt; con los datos de tu proyecto Supabase.</div>';return;}
   const url=location.origin+location.pathname;
-  const ok=sbState==="ok";
-  const conn= ok
-    ? '<div class="conn ok">✅ Conectado a la base — los datos se guardan y se comparten con la familia</div>'
-    : (sbState==="fail"
-        ? '<div class="conn bad">⚠️ No se pudo conectar a Supabase. Revisá que corriste el SQL (tabla <b>pollas</b>) y que el proyecto no esté en pausa.</div>'
-        : '');
-  bar.innerHTML=conn+'<div class="share"><div class="lnkwrap"><b>Link para la familia</b><div class="lnk">'+url+'</div></div><button class="btn sm" id="copyLink">Copiar</button></div>';
+  updateConnPill();
+  bar.innerHTML='<div class="share"><div class="lnkwrap"><b>Link para la familia</b><div class="lnk">'+url+'</div></div><button class="btn sm" id="copyLink">Copiar</button></div>';
   const b=document.getElementById("copyLink");
   b.onclick=()=>{navigator.clipboard.writeText(url).then(()=>{b.textContent="¡Copiado!";setTimeout(()=>b.textContent="Copiar",1500);});};
+}
+function updateConnPill(){const pill=document.getElementById("connPill");if(!pill)return;
+  if(!SB){pill.hidden=true;return;}
+  pill.hidden=false;const ok=sbState==="ok";
+  pill.className="conn-pill "+(ok?"ok":"bad");
+  pill.innerHTML='<span class="cdot"></span>'+(ok?"En línea":"Sin conexión");
 }
 
 /* ===== sincronización automática de resultados ===== */
@@ -1044,8 +1045,9 @@ function renderJugadores(){const list=document.getElementById("playerList");list
   data.participants.forEach(p=>{const row=el("div","player-row");const left=el("div","pname");
     left.appendChild(el("div","avatar",initials(p.name)));left.appendChild(el("span",null,p.name));
     const del=el("button","btn danger","Quitar");del.style.cssText="padding:7px 12px;font-size:12px";
-    del.onclick=()=>{data.participants=data.participants.filter(x=>x.id!==p.id);delete data.predictions[p.id];
-      if(currentWho===p.id)currentWho=null;save();renderAll();};
+    del.onclick=()=>{if(!confirm("¿Quitar a "+p.name+" de la polla?"))return;
+      data.participants=data.participants.filter(x=>x.id!==p.id);delete data.predictions[p.id];delete data.special[p.id];
+      if(currentWho===p.id){currentWho=null;whoSet(null);}save(true);renderAll();};
     row.append(left,del);list.appendChild(row);});}
 
 /* ===== tick ===== */
@@ -1169,25 +1171,35 @@ function renderFases(){const box=document.getElementById("fasesBox");if(!box)ret
   box.appendChild(cupCard);
   box.appendChild(el("div","fase-note","Cada fase es una competencia <b>aparte que empieza de cero</b>: todos vuelven a jugar con sus pronósticos. El que más puntos hace en la fase, la gana. Así todos compiten hasta el final. 💪"));
   // tarjetas por fase
-  PHASES.forEach(ph=>{const st=phaseState(ph);const stand=phaseStandings(ph);const winners=phaseWinners(ph);
-    const card=el("div","fase-card "+st);
-    const head=el("div","fase-head");
-    head.appendChild(el("span","fase-emoji",ph.emoji));
+  // la fase actual = la primera que no está terminada (la de grupos al arrancar)
+  let currentIdx=PHASES.findIndex(ph=>{const ms=phaseMatches(ph);const pl=ms.filter(played);return !(ms.length>0&&pl.length===ms.length);});
+  if(currentIdx<0)currentIdx=PHASES.length-1;
+  PHASES.forEach((ph,idx)=>{const ms=phaseMatches(ph);const pl=ms.filter(played);
+    const done=ms.length>0&&pl.length===ms.length;const started=pl.length>0;
+    const state=done?"done":(idx===currentIdx?"live":"open");
+    const stand=phaseStandings(ph);const winners=phaseWinners(ph);
+    const card=el("div","fase-card "+state);
+    const head=el("div","fase-head");head.appendChild(el("span","fase-emoji",ph.emoji));
     const ttl=el("div","fase-ttl");ttl.appendChild(el("div","fase-name",ph.name));
-    const badge=st==="done"?'<span class="fase-st done">Terminada</span>':st==="live"?'<span class="fase-st live">En juego</span>':'<span class="fase-st soon">Por venir</span>';
+    const badge=done?'<span class="fase-st done">Terminada</span>':state==="live"?'<span class="fase-st live">● En juego</span>':'<span class="fase-st open">Abierta</span>';
     ttl.appendChild(el("div","fase-sub",badge));head.appendChild(ttl);card.appendChild(head);
-    if(st==="soon"){card.appendChild(el("div","fase-empty","Se habilita cuando empiecen estos partidos."));}
-    else{
-      if(winners.length){const names=winners.map(w=>w.name).join(", ");
-        card.appendChild(el("div","fase-winner",`🏆 Ganador de la fase: <b>${names}</b> · ${winners[0].pts} pts`));}
-      else{const leader=stand.find(r=>r.jug>0);if(leader)card.appendChild(el("div","fase-leader",`▶ Va puntero: <b>${leader.name}</b> · ${leader.pts} pts`));}
+    if(done){
+      const names=winners.length?winners.map(w=>w.name).join(", "):"—";
+      card.appendChild(el("div","fase-winner",`🏆 Ganador de la fase: <b>${names}</b>${winners.length?" · "+winners[0].pts+" pts":""}`));
+    } else if(started){
+      const leader=stand.find(r=>r.jug>0);if(leader)card.appendChild(el("div","fase-leader",`▶ Va puntero: <b>${leader.name}</b> · ${leader.pts} pts`));
+    } else {
+      card.appendChild(el("div","fase-open-msg",ph.key==="grupos"
+        ? "¡Lista para jugar! Carga tus pronósticos en la pestaña 🎯 Pronósticos. Cada acierto suma para ganar esta fase."
+        : "Abierta. Los equipos se cargan <b>solos</b> en cuanto se sepa quién clasifica, y ahí cargas tus pronósticos."));
+    }
+    if(started||done){
       const top=stand.filter(r=>r.jug>0).slice(0,5);
-      const list=el("div","fase-rank");
-      top.forEach((r,i)=>{const row=el("div","fase-rrow"+(winners.some(w=>w.id===r.id)?" win":""));
-        row.appendChild(el("span","fase-pos",(i+1)+"º"));
-        row.appendChild(el("span","fase-pn",r.name));
-        row.appendChild(el("span","fase-pp",r.pts+" pts"));list.appendChild(row);});
-      card.appendChild(list);
+      if(top.length){const list=el("div","fase-rank");
+        top.forEach((r,i)=>{const row=el("div","fase-rrow"+(winners.some(w=>w.id===r.id)?" win":""));
+          row.appendChild(el("span","fase-pos",(i+1)+"º"));row.appendChild(el("span","fase-pn",r.name));
+          row.appendChild(el("span","fase-pp",r.pts+" pts"));list.appendChild(row);});
+        card.appendChild(list);}
     }
     box.appendChild(card);});
 }
