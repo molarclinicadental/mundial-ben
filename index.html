@@ -4,11 +4,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Gabarito:wght@500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Gabarito:wght@500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
 <style>
   :root{
-    --bg:#EEF0F6;--bg2:#E6E9F2;--surface:#FFFFFF;--surface2:#F6F7FB;
+    --bg:#EEF0F6;--bg2:#E6E9F2;--surface:rgba(255,255,255,.72);--surface-solid:#FFFFFF;--surface2:rgba(255,255,255,.5);
     --ink:#15122B;--muted:#6B6E86;--line:#E7E7F1;--line2:#D6D7E6;
     --green:#6D28D9;--green2:#54199F;--green-soft:#F0E9FD;
     --gold:#F4B400;--gold2:#FFC52E;--blue:#2D6BF0;--violet:#2D6BF0;--coral:#EF233C;
@@ -19,7 +19,7 @@
     --sh-lg:0 18px 40px -18px rgba(21,18,43,.30);
   }
   *{box-sizing:border-box} html,body{margin:0}
-  body{background:#E9EBEF;
+  body{background:#FAFBFD;
     color:var(--ink);font-family:'Noto Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
   .bg{position:fixed;inset:0;z-index:0;pointer-events:none}
   .bg svg{width:100%;height:100%;display:block}
@@ -33,10 +33,11 @@
   .mark26{flex:none;display:flex;align-items:center;justify-content:center;width:64px;height:58px;margin-top:2px}
   .mark26 .emblem{width:64px;height:58px;display:block;filter:drop-shadow(0 4px 8px rgba(21,18,43,.18))}
   .brand-eyebrow{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--green2);font-weight:700;margin-bottom:5px}
-  h1.brand{font-family:Gabarito,sans-serif;font-weight:800;font-size:clamp(28px,7vw,46px);line-height:.95;margin:0;letter-spacing:-.02em;color:var(--ink)}
-  h1.brand .ball{background:linear-gradient(92deg,#6D28D9,#2D6BF0 60%,#EF233C);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-  .fam{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(22px,5vw,30px);color:var(--gold);
-    line-height:.9;margin-top:3px;transform:rotate(-4deg);transform-origin:left;display:inline-block}
+  h1.brand{font-family:Gabarito,sans-serif;font-weight:800;font-size:clamp(28px,7vw,46px);line-height:1;margin:0;letter-spacing:-.01em;color:var(--ink);-webkit-text-fill-color:var(--ink)}
+  h1.brand .ball{background:none;-webkit-text-fill-color:var(--ink);color:var(--ink)}
+  .fam{font-family:'Dancing Script',cursive;font-weight:700;font-size:clamp(24px,5.4vw,33px);
+    background:linear-gradient(92deg,#EF233C,#6D28D9);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#EF233C;
+    line-height:1;margin-top:1px;display:inline-block}
   .subtitle{font-size:11.5px;color:var(--muted);margin-top:8px;max-width:520px;line-height:1.5}
   .save-state{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:7px;background:var(--surface);
     border:1px solid var(--line);border-radius:999px;padding:6px 11px;box-shadow:var(--sh-sm)}
@@ -67,6 +68,8 @@
   .panel{display:none;animation:fade .25s ease}.panel.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh);overflow:hidden}
+  .card,.lbrow,.gcard,.fase-card,.fase-cup,.share,.chip,.rchip,.ph-btn,.tab,select.sel,input.txt,.stepper,.toggle,.conn-pill,.syncbar,.score-note,.kn-note,.banner{
+    -webkit-backdrop-filter:blur(9px) saturate(118%);backdrop-filter:blur(9px) saturate(118%)}
 
   .phasenav{margin-bottom:8px}
   .phase-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
@@ -283,7 +286,7 @@
   .msg-del{appearance:none;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:13px;padding:4px;flex:none;opacity:.5}
   .msg-del:hover{opacity:1;color:var(--coral)}
   /* ===== capa de energía / interacción ===== */
-  h1.brand .ball{background:linear-gradient(135deg,var(--green),var(--violet));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  h1.brand .ball{background:none;-webkit-text-fill-color:var(--ink);color:var(--ink)}
   .btn,.rchip,.ph-btn,.tab,.emoji-b,.toggle,.pen-btn,.stp,.lbrow{will-change:transform}
   .btn:hover{transform:translateY(-1px)}
   .btn:active,.rchip:active,.ph-btn:active,.emoji-b:active,.toggle:active,.pen-btn:active,.qbtn:active{transform:scale(.95)}
@@ -501,7 +504,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #13</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #18</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
