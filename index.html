@@ -53,10 +53,10 @@
   .share b{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--green2)}
   .share .lnk{font-size:12.5px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
 
-  nav.tabs{display:flex;gap:7px;margin-bottom:16px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:5px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  nav.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;justify-content:center;padding-bottom:2px}
   nav.tabs::-webkit-scrollbar{display:none}
   .tab{flex:none;appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--muted);
-    font-family:'Noto Sans';font-weight:600;font-size:13px;padding:9px 15px;border-radius:999px;cursor:pointer;
+    font-family:'Noto Sans';font-weight:600;font-size:12.5px;padding:8px 13px;border-radius:999px;cursor:pointer;
     transition:transform .12s,background .18s,color .18s,border-color .18s,box-shadow .18s;box-shadow:var(--sh-sm);white-space:nowrap;
     display:inline-flex;align-items:center;gap:7px}
   .tab svg{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -649,7 +649,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #20</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #21</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
