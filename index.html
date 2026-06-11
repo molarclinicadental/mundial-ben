@@ -19,17 +19,23 @@
   }
   *{box-sizing:border-box} html,body{margin:0}
   body{background:
-      radial-gradient(1100px 520px at 10% -8%, #D7E2FF 0%, transparent 55%),
-      radial-gradient(1000px 520px at 100% -6%, #FFEEBE 0%, transparent 52%),
-      radial-gradient(900px 720px at 50% 118%, #E8E0FF 0%, transparent 60%),var(--bg);
+      radial-gradient(1100px 540px at 8% -10%, #CFDDFF 0%, transparent 56%),
+      radial-gradient(1000px 540px at 100% -8%, #FFE7A8 0%, transparent 54%),
+      radial-gradient(1000px 760px at 50% 120%, #E4D9FF 0%, transparent 62%),
+      radial-gradient(700px 500px at 100% 110%, #FFD7DF 0%, transparent 60%),var(--bg);
     background-attachment:fixed;
     color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}
   body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     background-image:
-      radial-gradient(circle, rgba(62,99,221,.07) 1.5px, transparent 1.7px),
-      radial-gradient(circle, rgba(245,165,36,.09) 1.5px, transparent 1.7px);
-    background-size:48px 48px,48px 48px;background-position:0 0,24px 24px}
+      radial-gradient(circle, rgba(62,99,221,.10) 1.7px, transparent 1.9px),
+      radial-gradient(circle, rgba(245,165,36,.12) 1.7px, transparent 1.9px),
+      radial-gradient(circle, rgba(124,92,252,.09) 1.7px, transparent 1.9px),
+      radial-gradient(circle, rgba(240,73,107,.08) 1.7px, transparent 1.9px);
+    background-size:56px 56px,56px 56px,76px 76px,76px 76px;
+    background-position:0 0,28px 28px,18px 40px,50px 12px}
   .wrap{max-width:880px;margin:0 auto;padding:18px 14px 96px;position:relative;z-index:1}
+  .fiesta-bar{height:7px;border-radius:99px;margin-bottom:14px;box-shadow:0 3px 10px -4px rgba(62,99,221,.4);
+    background:repeating-linear-gradient(135deg,var(--green) 0 16px,var(--violet) 16px 32px,var(--gold) 32px 48px,var(--coral) 48px 64px)}
 
   header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;
     padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
@@ -355,9 +361,11 @@
   .fase-pos{font-family:Outfit;font-weight:800;font-size:12px;color:var(--muted);min-width:24px}
   .fase-pn{flex:1;font-weight:600;font-size:13.5px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .fase-pp{font-family:Outfit;font-weight:800;font-size:13px;color:var(--ink)}
+  .ver{display:inline-block;font-family:Outfit;font-weight:700;font-size:10.5px;color:var(--green2);background:var(--green-soft);border:1px solid #D5DDF8;border-radius:6px;padding:1px 7px;margin-left:4px;letter-spacing:.02em}
 </style>
 
 <div class="wrap">
+  <div class="fiesta-bar" aria-hidden="true"></div>
   <header class="top">
     <div>
       <div class="brand-eyebrow">Mundial 2026 · USA · Canadá · México</div>
@@ -447,7 +455,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo.</span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: Fases · jun 2026 · #2</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar pozo</button>
   </footer>
 </div>
@@ -570,6 +578,10 @@ function buildEngine(M){
 const ENG = buildEngine(MATCHES);
 
 let data=null, currentWho=null;
+// recuerda en este dispositivo quién sos (no hay que re-elegirse cada vez)
+const WHO_KEY="polla-who-benitez";
+function whoGet(){try{return localStorage.getItem(WHO_KEY)||null;}catch(e){return null;}}
+function whoSet(v){try{v?localStorage.setItem(WHO_KEY,v):localStorage.removeItem(WHO_KEY);}catch(e){}}
 let pron={phase:"grupos",group:"A",ko:"R32"};
 let res ={phase:"grupos",group:"A",ko:"R32"};
 const KO_ROUNDS = ROUNDS.filter(r=>!["J1","J2","J3"].includes(r.key));
@@ -637,9 +649,14 @@ async function save(replace){
 async function load(){
   if(CLAUDE){try{const r=await window.storage.get(KEY,true);if(r&&r.value)data=JSON.parse(r.value);}catch(e){}if(!data)data=emptyData();normalize();renderShare();return;}
   if(!SB){data=emptyData();normalize();renderShare();return;}
-  try{const r=await sbFetch(); if(r)data=r; sbState="ok";}catch(e){sbState="fail";}
-  if(!data)data=emptyData(); normalize();
-  try{await sbUpsert(data); sbState="ok";}catch(e){sbState="fail";}
+  let fetched=false;
+  try{const r=await sbFetch(); sbState="ok"; fetched=true; if(r)data=r;}catch(e){sbState="fail";}
+  if(fetched && !data){               // la fila aún no existe → la creamos vacía (una sola vez)
+    data=emptyData(); normalize();
+    try{await sbUpsert(data);}catch(e){sbState="fail";}
+  } else if(!data){                   // NO se pudo leer: NO escribimos, para no pisar los datos reales
+    data=emptyData(); normalize();
+  } else { normalize(); }
   renderShare(); startPolling();
 }
 function startPolling(){ if(!SB)return;
@@ -1191,9 +1208,9 @@ function renderAll(){renderLeaderboard();renderFases();renderPronosticos();rende
 document.querySelectorAll(".tab").forEach(t=>{t.onclick=()=>{
   document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected","false"));t.setAttribute("aria-selected","true");
   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));document.getElementById("panel-"+t.dataset.tab).classList.add("active");};});
-document.getElementById("who").onchange=e=>{currentWho=e.target.value||null;renderPronosticos();};
-document.getElementById("who-ap").onchange=e=>{currentWho=e.target.value||null;renderApuestas();};
-document.getElementById("who-mu").onchange=e=>{currentWho=e.target.value||null;renderMuro();};
+document.getElementById("who").onchange=e=>{currentWho=e.target.value||null;whoSet(currentWho);renderPronosticos();};
+document.getElementById("who-ap").onchange=e=>{currentWho=e.target.value||null;whoSet(currentWho);renderApuestas();};
+document.getElementById("who-mu").onchange=e=>{currentWho=e.target.value||null;whoSet(currentWho);renderMuro();};
 document.getElementById("mu-send").onclick=()=>postMsg(document.getElementById("mu-text").value);
 document.getElementById("mu-text").onkeydown=e=>{if(e.key==="Enter")postMsg(e.target.value);};
 document.getElementById("addPlayer").onclick=addPlayer;
@@ -1211,7 +1228,7 @@ addModal.onclick=e=>{if(e.target===addModal)closeAdd();};
 document.getElementById("fab-name").addEventListener("keydown",e=>{if(e.key==="Enter")fabAddOk();if(e.key==="Escape")closeAdd();});
 function addPlayerByName(name){const n=(name||"").trim();if(!n)return null;
   const pid="p"+Math.random().toString(36).slice(2,8);data.participants.push({id:pid,name:n});data.predictions[pid]={};
-  if(!currentWho)currentWho=pid;save();renderAll();return pid;}
+  if(!currentWho){currentWho=pid;whoSet(currentWho);}save();renderAll();return pid;}
 function addPlayer(){const inp=document.getElementById("p-name");if(addPlayerByName(inp.value)){inp.value="";inp.focus();}}
 document.getElementById("resetBtn").onclick=async()=>{
   if(!confirm("¿Borrar jugadores, pronósticos y resultados? Los 104 partidos del Mundial se mantienen. Esto afecta a todos."))return;
@@ -1222,7 +1239,9 @@ window.addEventListener("hashchange",maybeShowReset);maybeShowReset();
 
 /* ===== boot ===== */
 (async()=>{document.getElementById("leaderboard").appendChild(emptyState("Cargando…","Trayendo el pozo compartido."));
-  await load();pron=defaultView();res={...pron};saveTxt.textContent="Guardado · compartido";renderAll();
+  await load();
+  const savedWho=whoGet(); if(savedWho && data.participants.find(p=>p.id===savedWho)) currentWho=savedWho;
+  pron=defaultView();res={...pron};saveTxt.textContent="Guardado · compartido";renderAll();
   if(data.config&&data.config.autoSync)syncResults();
   setInterval(()=>{if(data&&data.config&&data.config.autoSync&&!busy)syncResults();},600000);
 })();
