@@ -191,6 +191,58 @@
   .pin-status{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:var(--qual);padding:10px 13px;border-bottom:1px solid var(--line)}
   .pin-lockbtn{appearance:none;border:1px solid var(--line2);background:var(--surface);color:var(--muted);border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;cursor:pointer}
   .pin-lockbtn:hover{color:var(--ink)}
+  /* ===== reglas tab ===== */
+  #panel-reglas .card{padding:17px 18px;margin-bottom:13px}
+  .rg-intro h2{font-family:Gabarito,sans-serif;font-weight:800;font-size:21px;margin:0 0 6px}
+  .rg-lede{font-size:13.5px;color:#43465c;line-height:1.55;margin:0}
+  .rg-stats{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap}
+  .rg-stat{flex:1;min-width:88px;border:1px solid var(--line);border-radius:13px;padding:11px 13px;background:var(--surface-solid)}
+  .rg-stat b{font-family:Gabarito;font-weight:800;font-size:23px;display:block;line-height:1}
+  .rg-stat span{font-size:11px;color:var(--muted);font-weight:600}
+  .rg-stat.p b{color:var(--green)}.rg-stat.b b{color:var(--blue)}.rg-stat.g b{color:var(--gold)}
+  .rg-head{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+  .rg-ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none}
+  .rg-ico svg{width:21px;height:21px;stroke:#fff;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+  .rg-ico.p{background:linear-gradient(135deg,#7C3AED,#5B21B6)}
+  .rg-ico.g{background:linear-gradient(135deg,#FFCB45,#E0A21F)}
+  .rg-ico.c{background:linear-gradient(135deg,#FF5A74,#E0123A)}
+  .rg-ico.b{background:linear-gradient(135deg,#4D8BFF,#1E54D6)}
+  .rg-ico.gr{background:linear-gradient(135deg,#34D17F,#119150)}
+  .rg-head h3{font-family:Gabarito,sans-serif;font-weight:800;font-size:17.5px;margin:0;color:var(--ink)}
+  .rg-p{font-size:13px;color:#43465c;margin:9px 0;line-height:1.5}
+  .rg-muted{font-size:12px;color:var(--muted);line-height:1.5;margin-top:11px}
+  .rg-b{font-weight:800;color:var(--ink)}
+  .rg-steps{counter-reset:rgs;margin-top:6px}
+  .rg-step{display:flex;gap:12px;padding:7px 0;font-size:13px;color:#43465c;line-height:1.45}
+  .rg-step:before{counter-increment:rgs;content:counter(rgs);flex:none;width:27px;height:27px;border-radius:50%;
+    background:linear-gradient(135deg,var(--green),var(--violet));color:#fff;font-family:Gabarito;font-weight:800;font-size:13px;display:grid;place-items:center}
+  .rg-pts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  .rg-chip{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:13px;padding:9px 11px;background:var(--surface-solid)}
+  .rg-tag{width:38px;height:38px;border-radius:10px;flex:none;display:grid;place-items:center;font-family:Gabarito;font-weight:800;font-size:18px;color:#fff}
+  .rg-tag.x5{background:linear-gradient(135deg,#7C3AED,#5B21B6)}
+  .rg-tag.x3{background:linear-gradient(135deg,#4D8BFF,#1E54D6)}
+  .rg-tag.x0{background:#C3C5D4}
+  .rg-ct b{display:block;font-size:13px;font-weight:800;color:var(--ink)}
+  .rg-ct span{font-size:11.5px;color:var(--muted)}
+  .rg-ladder{display:flex;align-items:flex-end;gap:6px;height:150px;margin:14px 0 6px}
+  .rg-rung{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:7px;height:100%}
+  .rg-bar{width:100%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#8B5CF6,#6D28D9);
+    display:flex;align-items:flex-start;justify-content:center;padding-top:6px;box-shadow:0 7px 14px -9px rgba(109,40,217,.7)}
+  .rg-mx{font-family:Gabarito;font-weight:800;color:#fff;font-size:13px}
+  .rg-rung:last-child .rg-bar{background:linear-gradient(180deg,#FFD23F,#F4B400)}
+  .rg-rung:last-child .rg-mx{color:#5b3d00}
+  .rg-lab{font-size:9.5px;font-weight:700;color:var(--muted);text-align:center;line-height:1.15}
+  .rg-note{font-size:11.5px;color:var(--muted);text-align:center;margin-top:2px}
+  .rg-row{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px dashed var(--line)}
+  .rg-row:last-child{border-bottom:0}
+  .rg-em{width:32px;height:32px;flex:none;border-radius:9px;background:var(--green-soft);display:grid;place-items:center;font-size:16px}
+  .rg-tx{flex:1;font-size:12.5px;color:#43465c;line-height:1.45}.rg-tx b{font-weight:800;color:var(--ink)}
+  .rg-bo{font-family:Gabarito;font-weight:800;font-size:15px;white-space:nowrap}
+  .rg-win{background:linear-gradient(135deg,#2B1066,#4A1FB0)!important;border:0!important}
+  .rg-win .rg-head h3{color:#fff}
+  .rg-win .rg-p{color:rgba(255,255,255,.88)}
+  .rg-win .rg-ico.p{background:rgba(255,255,255,.16)}
+  .rg-win .rg-b{color:#FFD23F}
   .player-row:last-child{border-bottom:0}
   .pname{font-weight:600;font-size:15px;display:flex;align-items:center;gap:10px;color:var(--ink)}
   .avatar{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-family:Gabarito;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--green),var(--green2));flex:none}
@@ -465,6 +517,7 @@
     <button class="tab" role="tab" aria-selected="false" data-tab="jugadores"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><circle cx="16.5" cy="9" r="2.6"/><path d="M3.5 19 a5.6 5.6 0 0 1 11 0"/><path d="M14.8 19.2 a4.9 4.9 0 0 1 5.7-5"/></svg>Jugadores</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="grupos"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></svg>Grupos</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="cuadro"><svg viewBox="0 0 24 24"><path d="M4 5 h5 v6 h5 M4 19 h5 v-6 M14 11 h6"/></svg>Cuadro</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="reglas"><svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2.2"/><path d="M9 8.5h6M9 12h6M9 15.5h3.5"/></svg>Reglas</button>
   </nav>
 
   <section class="panel active" id="panel-tabla">
@@ -521,8 +574,82 @@
     </div>
   </section>
 
+  <section class="panel" id="panel-reglas">
+    <div class="card rg-intro">
+      <h2>Reglas del juego ⚽</h2>
+      <p class="rg-lede">Pronostica los marcadores de cada partido del Mundial. Mientras más le atines, más puntos sumas. ¡El que termine con más puntos al final del torneo es el campeón de la familia!</p>
+      <div class="rg-stats">
+        <div class="rg-stat p"><b>48</b><span>selecciones</span></div>
+        <div class="rg-stat b"><b>12</b><span>grupos</span></div>
+        <div class="rg-stat g"><b>104</b><span>partidos</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="rg-head"><div class="rg-ico p"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div><h3>Cómo entrar</h3></div>
+      <div class="rg-steps">
+        <div class="rg-step"><div>Pídele al organizador que te cree en <b class="rg-b">Jugadores</b> con tu nombre y un <b class="rg-b">PIN de 4 números</b> que elijas tú.</div></div>
+        <div class="rg-step"><div>Ve a <b class="rg-b">Pronósticos</b>, elígete en <b class="rg-b">&ldquo;Soy:&rdquo;</b> e ingresa tu PIN. Solo tú puedes cargar o cambiar tus marcadores.</div></div>
+        <div class="rg-step"><div>Carga el resultado que crees para cada partido con los botones <b class="rg-b">+ / −</b>. ¡Listo!</div></div>
+      </div>
+      <p class="rg-muted">Tu PIN queda guardado en tu teléfono; nadie puede tocar tus pronósticos sin él.</p>
+    </div>
+
+    <div class="card">
+      <div class="rg-head"><div class="rg-ico b"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 19v-6M13 19v-9M18 19V8"/></svg></div><h3>Cómo se ganan los puntos</h3></div>
+      <p class="rg-p">Por cada partido, según le atines:</p>
+      <div class="rg-pts">
+        <div class="rg-chip"><div class="rg-tag x5">5</div><div class="rg-ct"><b>Marcador exacto</b><span>le atinas al resultado justo (ej. 2-1)</span></div></div>
+        <div class="rg-chip"><div class="rg-tag x3">3</div><div class="rg-ct"><b>Aciertas el ganador o el empate</b><span>aunque falles el marcador</span></div></div>
+        <div class="rg-chip"><div class="rg-tag x0">0</div><div class="rg-ct"><b>Fallas</b><span>no le pegaste a nada</span></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="rg-head"><div class="rg-ico g"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 8-9"/><path d="M21 7v5h-5"/></svg></div><h3>Las fases valen cada vez más</h3></div>
+      <p class="rg-p">Acertar en las finales vale mucho más que en grupos. Los puntos se <b class="rg-b">multiplican</b> según la fase:</p>
+      <div class="rg-ladder">
+        <div class="rg-rung"><div class="rg-bar" style="height:26%"><span class="rg-mx">×1</span></div><div class="rg-lab">Grupos</div></div>
+        <div class="rg-rung"><div class="rg-bar" style="height:42%"><span class="rg-mx">×2</span></div><div class="rg-lab">Ronda<br>de 32</div></div>
+        <div class="rg-rung"><div class="rg-bar" style="height:56%"><span class="rg-mx">×3</span></div><div class="rg-lab">Octavos</div></div>
+        <div class="rg-rung"><div class="rg-bar" style="height:70%"><span class="rg-mx">×4</span></div><div class="rg-lab">Cuartos</div></div>
+        <div class="rg-rung"><div class="rg-bar" style="height:84%"><span class="rg-mx">×5</span></div><div class="rg-lab">Semis</div></div>
+        <div class="rg-rung"><div class="rg-bar" style="height:100%"><span class="rg-mx">×6</span></div><div class="rg-lab">Final</div></div>
+      </div>
+      <p class="rg-note">Un marcador exacto vale 5 en grupos… y 30 en la final.</p>
+    </div>
+
+    <div class="card">
+      <div class="rg-head"><div class="rg-ico gr"><svg viewBox="0 0 24 24"><path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v4a6 6 0 0 1-12 0V5zM9 19h6M12 15v4"/></svg></div><h3>Competencia por fases</h3></div>
+      <p class="rg-p">Cada fase es su propia mini-competencia: quien hace más puntos en una fase la <b class="rg-b">gana</b>.</p>
+      <div class="rg-row"><div class="rg-em">🏆</div><div class="rg-tx"><b>Ganar una fase</b> te suma un bono al total general.</div><div class="rg-bo" style="color:var(--qual)">+5</div></div>
+      <div class="rg-row"><div class="rg-em">🥇</div><div class="rg-tx"><b>Copa de Fases:</b> quien gane más fases tiene su reconocimiento.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="rg-head"><div class="rg-ico c"><svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.7 1.1-6.1L3.2 9.4l6.1-.8z"/></svg></div><h3>Apuestas especiales</h3></div>
+      <p class="rg-p">Antes de que arranque el Mundial, cada uno predice tres cosas grandes (pestaña <b class="rg-b">Apuestas</b>):</p>
+      <div class="rg-row"><div class="rg-em">🏆</div><div class="rg-tx"><b>Campeón</b> del Mundial</div><div class="rg-bo" style="color:#C7901A">+15</div></div>
+      <div class="rg-row"><div class="rg-em">🥈</div><div class="rg-tx"><b>Subcampeón</b> (pierde la final)</div><div class="rg-bo" style="color:#C7901A">+8</div></div>
+      <div class="rg-row"><div class="rg-em">👟</div><div class="rg-tx"><b>Goleador</b> del torneo</div><div class="rg-bo" style="color:#C7901A">+10</div></div>
+      <p class="rg-muted">Ojo: las apuestas se cierran cuando empieza el primer partido. Después no se cambian.</p>
+    </div>
+
+    <div class="card">
+      <div class="rg-head"><div class="rg-ico p"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Reglas clave</h3></div>
+      <div class="rg-row"><div class="rg-em">⏰</div><div class="rg-tx">Editas tus pronósticos <b>hasta 1 hora antes</b> de cada partido. Después se bloquean.</div></div>
+      <div class="rg-row"><div class="rg-em">🔄</div><div class="rg-tx">Los cruces de eliminatorias <b>se cargan solos</b> cuando se sabe quién clasifica.</div></div>
+      <div class="rg-row"><div class="rg-em">📊</div><div class="rg-tx">La <b>Tabla</b> se actualiza sola con los resultados reales.</div></div>
+    </div>
+
+    <div class="card rg-win">
+      <div class="rg-head"><div class="rg-ico p"><svg viewBox="0 0 24 24"><path d="M6 9H4a2 2 0 0 1-2-2V5h4M18 9h2a2 2 0 0 0 2-2V5h-4M6 5h12v4a6 6 0 0 1-12 0V5zM9 19h6M12 15v4"/></svg></div><h3>¿Quién gana la polla?</h3></div>
+      <p class="rg-p">Los puntos se <b class="rg-b">acumulan</b> de principio a fin. El campeón de la familia es quien tenga <b class="rg-b">más puntos en total</b> al terminar el Mundial: aciertos (con su multiplicador), bonos por ganar fases y apuestas especiales. Como las eliminatorias valen mucho más, ¡siempre hay chance de remontar hasta el último partido! 🏆</p>
+    </div>
+  </section>
+
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #19</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #20</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
