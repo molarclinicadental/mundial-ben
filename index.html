@@ -18,18 +18,14 @@
     --sh-lg:0 18px 40px -18px rgba(15,27,45,.30);
   }
   *{box-sizing:border-box} html,body{margin:0}
-  body{background:#1f8245;
-    color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}
-  .pitch{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .pitch svg{width:100%;height:100%;display:block}
-  .wrap{max-width:880px;margin:0 auto;padding:18px 14px 96px;position:relative;z-index:1}
-  .fiesta-bar{height:14px;border-radius:5px;margin-bottom:14px;box-shadow:0 3px 10px -4px rgba(0,0,0,.35);
+  body{background:var(--bg);
+    color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:880px;margin:0 auto;padding:18px 14px 96px}
+  .fiesta-bar{height:14px;border-radius:5px;margin-bottom:14px;box-shadow:0 3px 10px -4px rgba(0,0,0,.18);
     background:linear-gradient(to bottom, #FFDD00 0 50%, #0033A0 50% 75%, #EF3340 75% 100%)}
 
   header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;
-    background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
-    border:1px solid rgba(255,255,255,.7);border-radius:18px;padding:15px 16px;margin-bottom:14px;
-    box-shadow:0 16px 36px -20px rgba(0,0,0,.55)}
+    padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
   .brand-eyebrow{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--green2);font-weight:700;margin-bottom:5px}
   h1.brand{font-family:Outfit,sans-serif;font-weight:800;font-size:clamp(28px,7vw,46px);line-height:.95;margin:0;letter-spacing:-.02em;color:var(--ink)}
   h1.brand .ball{color:var(--green)}
@@ -75,14 +71,14 @@
   .rchip:hover{color:var(--ink);border-color:var(--line2)}
   .rchip[aria-current="true"]{background:var(--green);color:#fff;border-color:var(--green)}
 
-  .pick-who{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px;box-shadow:var(--sh-sm)}
+  .pick-who{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
   .pick-who label{font-size:12px;color:var(--muted);font-weight:600}
   select.sel{background:var(--surface);border:1px solid var(--line2);color:var(--ink);border-radius:10px;
     padding:10px 12px;font-family:Inter;font-size:14px;font-weight:600;min-width:170px;box-shadow:var(--sh-sm)}
   select.sel:focus{outline:none;border-color:var(--green)}
 
   .round-title{font-family:Outfit;font-weight:800;letter-spacing:-.01em;font-size:19px;margin:0 0 2px;color:var(--ink)}
-  .progress{font-size:12px;color:var(--muted);margin-bottom:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 13px;line-height:1.5;box-shadow:var(--sh-sm)}.progress b{color:var(--green2)}
+  .progress{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5}.progress b{color:var(--green2)}
 
   .match{display:grid;grid-template-columns:1fr 1fr;
     grid-template-areas:"eyebrow eyebrow" "home away" "score score" "status status";
@@ -361,42 +357,6 @@
   .ver{display:inline-block;font-family:Outfit;font-weight:700;font-size:10.5px;color:var(--green2);background:var(--green-soft);border:1px solid #D5DDF8;border-radius:6px;padding:1px 7px;margin-left:4px;letter-spacing:.02em}
 </style>
 
-<div class="pitch" aria-hidden="true">
-<svg viewBox="0 0 1000 1600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="lawn" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2fa75d"/><stop offset="1" stop-color="#1f8245"/>
-    </linearGradient>
-    <radialGradient id="lights" cx="50%" cy="6%" r="65%">
-      <stop offset="0" stop-color="#ffffff" stop-opacity=".20"/><stop offset="65%" stop-color="#ffffff" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="vig" cx="50%" cy="42%" r="78%">
-      <stop offset="52%" stop-color="#000000" stop-opacity="0"/><stop offset="100%" stop-color="#073a1d" stop-opacity=".6"/>
-    </radialGradient>
-  </defs>
-  <rect width="1000" height="1600" fill="url(#lawn)"/>
-  <g fill="#ffffff" fill-opacity="0.045">
-    <rect y="0" width="1000" height="160"/><rect y="320" width="1000" height="160"/>
-    <rect y="640" width="1000" height="160"/><rect y="960" width="1000" height="160"/><rect y="1280" width="1000" height="160"/>
-  </g>
-  <g fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="4">
-    <rect x="60" y="60" width="880" height="1480" rx="2"/>
-    <line x1="60" y1="800" x2="940" y2="800"/>
-    <circle cx="500" cy="800" r="132"/>
-    <rect x="250" y="60" width="500" height="230"/>
-    <rect x="372" y="60" width="256" height="92"/>
-    <path d="M 372 290 A 132 132 0 0 1 628 290"/>
-    <rect x="250" y="1310" width="500" height="230"/>
-    <rect x="372" y="1448" width="256" height="92"/>
-    <path d="M 372 1310 A 132 132 0 0 0 628 1310"/>
-  </g>
-  <circle cx="500" cy="800" r="7" fill="#ffffff" fill-opacity="0.42"/>
-  <circle cx="500" cy="220" r="6" fill="#ffffff" fill-opacity="0.42"/>
-  <circle cx="500" cy="1380" r="6" fill="#ffffff" fill-opacity="0.42"/>
-  <rect width="1000" height="1600" fill="url(#lights)"/>
-  <rect width="1000" height="1600" fill="url(#vig)"/>
-</svg>
-</div>
 <div class="wrap">
   <div class="fiesta-bar" aria-hidden="true"></div>
   <header class="top">
@@ -473,7 +433,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #5</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #6</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
