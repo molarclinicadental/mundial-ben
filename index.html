@@ -273,6 +273,9 @@
     font-family:'Noto Sans',sans-serif;font-size:12.5px;line-height:1.55;color:var(--ink);background:#fff;resize:vertical}
   .remind-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
   .remind-note{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.45}
+  .clrbtn{display:block;margin:9px auto 0;appearance:none;border:1px solid var(--line2);background:var(--surface);
+    color:var(--muted);border-radius:999px;padding:6px 13px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:'Noto Sans',sans-serif}
+  .clrbtn:hover{color:var(--coral);border-color:var(--coral)}
   .player-row:last-child{border-bottom:0}
   .pname{font-weight:600;font-size:15px;display:flex;align-items:center;gap:10px;color:var(--ink)}
   .avatar{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-family:Gabarito;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--green),var(--green2));flex:none}
@@ -684,7 +687,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #24</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #26</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
@@ -949,6 +952,8 @@ async function syncResults(){
       let m=cands[0];
       if(cands.length>1&&ev.dateEvent){
         m=cands.map(x=>({x,d:Math.abs(new Date(x.kickoff)-new Date(ev.dateEvent))})).sort((p,q)=>p.d-q.d)[0].x;}
+      if(Date.now()<Date.parse(m.kickoff)+(m.group?125:170)*60000)return;  // solo cuando el partido YA terminó (no en vivo, no futuro)
+      if(ev.dateEvent&&Math.abs(new Date(ev.dateEvent)-new Date(m.kickoff))>3*86400000)return; // evita cruzar fechas/ediciones
       const cur=data.results[m.id]; if(cur&&cur.src==="manual")return;   // respeta lo cargado a mano
       const a=isoOf(m.home);
       const H=(a===ih)?+hs:+as, A=(a===ih)?+as:+hs;
@@ -1346,9 +1351,11 @@ function renderResultados(){
     sr.append(hi,el("span","vs","–"),ai);row.appendChild(sr);
     const st=el("div","status");
     if(played(m)){st.className="status done";st.textContent="resultado final";}
-    else if(started(m)){st.className="status lock";st.textContent="en juego — carga el marcador";}
+    else if(started(m)){st.className="status soon";st.textContent="⏳ falta el marcador final — complétalo";}
     else{st.className="status soon";st.textContent="por jugar";}
     row.appendChild(st);
+    if(rs.home!=null||rs.away!=null){const clr=el("button","clrbtn","🗑 Limpiar marcador");
+      clr.onclick=()=>clearResult(m.id);row.appendChild(clr);}
     if(isKO&&played(m)&&m.realHome===m.realAway){
       const pen=el("div","pen");pen.appendChild(el("span",null,"Pasó por penales:"));
       const bh=el("button","pen-btn",m.home);bh.setAttribute("aria-pressed",m.pen==="home"?"true":"false");bh.onclick=()=>setPen(m.id,"home");
@@ -1364,6 +1371,7 @@ function koPencil(m,side){const b=el("button","pencil","✎");b.title="Corregir 
 function setResult(matchId,side,v){const rs=data.results[matchId]=data.results[matchId]||{};rs[side]=v;rs.src="manual";
   if(rs.home==null&&rs.away==null)delete data.results[matchId];save();renderLeaderboard();renderResultados();renderGrupos();renderBracket();}
 function setPen(matchId,side){const rs=data.results[matchId]=data.results[matchId]||{};rs.pen=side;save();renderResultados();renderLeaderboard();renderBracket();}
+function clearResult(matchId){delete data.results[matchId];save(true);renderLeaderboard();renderResultados();renderGrupos();renderBracket();}
 
 /* ===== grupos ===== */
 function renderGrupos(){const grid=document.getElementById("groupsGrid");grid.innerHTML="";
@@ -1597,11 +1605,16 @@ function maybeShowReset(){const rb=document.getElementById("resetBtn");if(rb)rb.
 window.addEventListener("hashchange",maybeShowReset);maybeShowReset();
 
 /* ===== boot ===== */
+function cleanupBadAuto(){let ch=false;
+  MATCHES.forEach(m=>{const r=data.results[m.id];
+    if(r&&(r.home!=null||r.away!=null)&&Date.parse(m.kickoff)>Date.now()){delete data.results[m.id];ch=true;}});
+  return ch;}
 (async()=>{document.getElementById("leaderboard").appendChild(emptyState("Cargando…","Cargando la polla compartida."));
   await load();
+  if(cleanupBadAuto()){try{await save(true);}catch(e){}}
   const savedWho=whoGet(); if(savedWho && data.participants.find(p=>p.id===savedWho)) currentWho=savedWho;
   pron=defaultView();res={...pron};saveTxt.textContent="Guardado · compartido";renderAll();
   if(data.config&&data.config.autoSync)syncResults();
-  setInterval(()=>{if(data&&data.config&&data.config.autoSync&&!busy)syncResults();},300000);
+  setInterval(()=>{if(data&&data.config&&data.config.autoSync&&!busy)syncResults();},180000);
 })();
 </script>
