@@ -243,6 +243,28 @@
   .rg-win .rg-p{color:rgba(255,255,255,.88)}
   .rg-win .rg-ico.p{background:rgba(255,255,255,.16)}
   .rg-win .rg-b{color:#FFD23F}
+  /* ===== aviso cierran pronto ===== */
+  .soonbox{border:1px solid #F3D27A;background:linear-gradient(180deg,#FFF9EC,#FFF3D8);border-radius:14px;padding:12px 13px;margin-bottom:14px;box-shadow:0 8px 20px -16px rgba(180,130,20,.55)}
+  .soon-head{font-size:13px;color:#7a5b12;margin-bottom:9px}
+  .soon-head b{color:#5e4408;font-weight:800}
+  .soon-miss{color:var(--coral);font-weight:800}
+  .soon-ok{color:var(--qual);font-weight:800}
+  .soon-list{display:flex;flex-direction:column;gap:6px}
+  .soon-item{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;
+    background:#fff;border:1px solid #F0E2B8;border-radius:10px;padding:8px 10px;cursor:pointer;font-family:inherit;transition:border-color .15s,transform .1s}
+  .soon-item:hover{border-color:#E6C76A}
+  .soon-item:active{transform:scale(.99)}
+  .soon-item.filled{opacity:.66}
+  .si-tm{font-size:12.5px;font-weight:700;color:var(--ink)}
+  .si-vs{color:var(--muted);font-weight:600;font-size:11px}
+  .si-meta{display:flex;align-items:center;gap:8px;flex:none}
+  .si-cd{font-size:11px;color:#8a6a16;font-weight:700;white-space:nowrap}
+  .si-st{font-size:10.5px;font-weight:800;border-radius:999px;padding:2px 8px;white-space:nowrap}
+  .si-st.ok{color:var(--qual);background:rgba(22,163,74,.12)}
+  .si-st.miss{color:var(--coral);background:rgba(239,35,60,.12)}
+  .soon-more{font-size:11px;color:var(--muted);margin-top:8px;text-align:center}
+  .match.flash{animation:flashpulse 1.6s ease}
+  @keyframes flashpulse{0%,100%{box-shadow:var(--sh-sm)}25%{box-shadow:0 0 0 3px rgba(244,180,0,.55)}}
   .player-row:last-child{border-bottom:0}
   .pname{font-weight:600;font-size:15px;display:flex;align-items:center;gap:10px;color:var(--ink)}
   .avatar{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-family:Gabarito;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--green),var(--green2));flex:none}
@@ -649,7 +671,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #21</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #22</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
@@ -1160,6 +1182,13 @@ function familiaBar(m){const d=familiaDist(m);if(d.n<1)return null;const pct=x=>
   wrap.appendChild(tr);
   wrap.appendChild(el("div","fam-lbl",`La familia: 🏠 ${pct(d.h)}% · 🤝 ${pct(d.d)}% · ✈️ ${pct(d.a)}% <small>(${d.n})</small>`));
   return wrap;}
+function closingSoon(maxH){const lim=Date.now()+maxH*3600*1000;
+  return getMatches().filter(m=>m.home&&m.away&&!isLocked(m)&&(Date.parse(m.kickoff)-LOCK_MS)<=lim).sort(byKick);}
+function goToMatch(m){
+  pron=m.group?{phase:"grupos",group:m.group}:{phase:ROUND2PHASE[m.round]||"R32",group:"A"};
+  renderPronosticos();
+  setTimeout(()=>{const r=document.querySelector('[data-mid="'+m.id+'"]');
+    if(r){r.scrollIntoView({behavior:"smooth",block:"center"});r.classList.add("flash");setTimeout(()=>r.classList.remove("flash"),1600);}},70);}
 function renderPronosticos(){
   const v=pron;
   document.getElementById("pron-title").innerHTML=viewTitle(v)+` <span class="mult-pill">vale ×${multForPhase(v.phase)}</span>`;
@@ -1174,11 +1203,33 @@ function renderPronosticos(){
     lk.appendChild(b);card.appendChild(lk);}
   const ms=viewMatches(v);
   data.predictions[currentWho]=data.predictions[currentWho]||{};const store=data.predictions[currentWho];
+  // aviso: partidos por cerrarse (próximas 48 h) que aún puedes llenar
+  const soon=closingSoon(48);
+  if(soon.length){
+    const falta=soon.filter(m=>{const p=store[m.id];return !(p&&p.home!=null&&p.away!=null);});
+    const ban=el("div","soonbox");
+    const head=el("div","soon-head");
+    head.innerHTML="⏳ <b>Cierran pronto</b> · "+soon.length+" en 48 h"+
+      (falta.length?' · <span class="soon-miss">te faltan '+falta.length+'</span>':' · <span class="soon-ok">¡todos cargados!</span>');
+    ban.appendChild(head);
+    const list=el("div","soon-list");
+    soon.slice(0,6).forEach(m=>{const p=store[m.id];const filled=p&&p.home!=null&&p.away!=null;
+      const it=el("button","soon-item"+(filled?" filled":""));
+      const lock=Date.parse(m.kickoff)-LOCK_MS;
+      it.innerHTML='<span class="si-tm">'+m.home+' <span class="si-vs">vs</span> '+m.away+'</span>'+
+        '<span class="si-meta"><span class="si-cd">cierra '+(countdownTo(lock)||"pronto")+'</span>'+
+        '<span class="si-st '+(filled?'ok':'miss')+'">'+(filled?'✓ cargado':'⚠ falta')+'</span></span>';
+      it.onclick=()=>goToMatch(m);
+      list.appendChild(it);});
+    ban.appendChild(list);
+    if(soon.length>6)ban.appendChild(el("div","soon-more","y "+(soon.length-6)+" partido(s) más en la lista"));
+    card.appendChild(ban);
+  }
   const upd=()=>{const done=ms.filter(m=>{const p=store[m.id];return p&&p.home!=null&&p.away!=null;}).length;
     const open=ms.filter(m=>!isLocked(m)).length;prog.innerHTML=`<b>${done}</b>/${ms.length} cargados · ${open} abiertos`;};
   upd();
   if(v.phase!=="grupos")card.appendChild(el("div","kn-note","ℹ️ Los cruces de esta fase se arman solos con los resultados de la fase anterior. Apenas se conozcan los equipos, cargas acá tu marcador."));
-  ms.forEach(m=>{const locked=isLocked(m);const row=el("div","match"+(locked?" locked":""));
+  ms.forEach(m=>{const locked=isLocked(m);const row=el("div","match"+(locked?" locked":""));row.dataset.mid=m.id;
     row.appendChild(el("div","eyebrow",matchEyebrow(m)));
     row.appendChild(teamLabel("home",m));
     row.appendChild(teamLabel("away",m));
