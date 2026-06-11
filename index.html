@@ -18,20 +18,18 @@
     --sh-lg:0 18px 40px -18px rgba(15,27,45,.30);
   }
   *{box-sizing:border-box} html,body{margin:0}
-  body{background:
-      linear-gradient(180deg, #EDF3FA 0, #EDF3FA 140px, rgba(237,243,250,0) 330px),
-      repeating-linear-gradient(90deg, #2f8a4e 0 64px, #2b8149 64px 128px),
-      #2c8249;
-    background-attachment:fixed;
+  body{background:#1f8245;
     color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}
-  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-    background:radial-gradient(130% 90% at 50% 18%, transparent 55%, rgba(0,0,0,.16))}
+  .pitch{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .pitch svg{width:100%;height:100%;display:block}
   .wrap{max-width:880px;margin:0 auto;padding:18px 14px 96px;position:relative;z-index:1}
-  .fiesta-bar{height:14px;border-radius:5px;margin-bottom:14px;box-shadow:0 3px 10px -4px rgba(0,0,0,.3);
+  .fiesta-bar{height:14px;border-radius:5px;margin-bottom:14px;box-shadow:0 3px 10px -4px rgba(0,0,0,.35);
     background:linear-gradient(to bottom, #FFDD00 0 50%, #0033A0 50% 75%, #EF3340 75% 100%)}
 
   header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;
-    padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+    background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,.7);border-radius:18px;padding:15px 16px;margin-bottom:14px;
+    box-shadow:0 16px 36px -20px rgba(0,0,0,.55)}
   .brand-eyebrow{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--green2);font-weight:700;margin-bottom:5px}
   h1.brand{font-family:Outfit,sans-serif;font-weight:800;font-size:clamp(28px,7vw,46px);line-height:.95;margin:0;letter-spacing:-.02em;color:var(--ink)}
   h1.brand .ball{color:var(--green)}
@@ -363,6 +361,42 @@
   .ver{display:inline-block;font-family:Outfit;font-weight:700;font-size:10.5px;color:var(--green2);background:var(--green-soft);border:1px solid #D5DDF8;border-radius:6px;padding:1px 7px;margin-left:4px;letter-spacing:.02em}
 </style>
 
+<div class="pitch" aria-hidden="true">
+<svg viewBox="0 0 1000 1600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lawn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2fa75d"/><stop offset="1" stop-color="#1f8245"/>
+    </linearGradient>
+    <radialGradient id="lights" cx="50%" cy="6%" r="65%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".20"/><stop offset="65%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="50%" cy="42%" r="78%">
+      <stop offset="52%" stop-color="#000000" stop-opacity="0"/><stop offset="100%" stop-color="#073a1d" stop-opacity=".6"/>
+    </radialGradient>
+  </defs>
+  <rect width="1000" height="1600" fill="url(#lawn)"/>
+  <g fill="#ffffff" fill-opacity="0.045">
+    <rect y="0" width="1000" height="160"/><rect y="320" width="1000" height="160"/>
+    <rect y="640" width="1000" height="160"/><rect y="960" width="1000" height="160"/><rect y="1280" width="1000" height="160"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="4">
+    <rect x="60" y="60" width="880" height="1480" rx="2"/>
+    <line x1="60" y1="800" x2="940" y2="800"/>
+    <circle cx="500" cy="800" r="132"/>
+    <rect x="250" y="60" width="500" height="230"/>
+    <rect x="372" y="60" width="256" height="92"/>
+    <path d="M 372 290 A 132 132 0 0 1 628 290"/>
+    <rect x="250" y="1310" width="500" height="230"/>
+    <rect x="372" y="1448" width="256" height="92"/>
+    <path d="M 372 1310 A 132 132 0 0 0 628 1310"/>
+  </g>
+  <circle cx="500" cy="800" r="7" fill="#ffffff" fill-opacity="0.42"/>
+  <circle cx="500" cy="220" r="6" fill="#ffffff" fill-opacity="0.42"/>
+  <circle cx="500" cy="1380" r="6" fill="#ffffff" fill-opacity="0.42"/>
+  <rect width="1000" height="1600" fill="url(#lights)"/>
+  <rect width="1000" height="1600" fill="url(#vig)"/>
+</svg>
+</div>
 <div class="wrap">
   <div class="fiesta-bar" aria-hidden="true"></div>
   <header class="top">
@@ -379,14 +413,12 @@
 
   <nav class="tabs" role="tablist">
     <button class="tab" role="tab" aria-selected="true" data-tab="tabla">🏆 Tabla</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="fases">🥇 Fases</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="pronosticos">🎯 Pronósticos</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="resultados">⚽ Resultados</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="cuadro">🏆 Cuadro</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="grupos">📊 Grupos</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="apuestas">⭐ Apuestas</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="muro">💬 Muro</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="resultados">⚽ Resultados</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="jugadores">👥 Jugadores</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="grupos">📊 Grupos</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="cuadro">🏆 Cuadro</button>
   </nav>
 
   <section class="panel active" id="panel-tabla">
@@ -396,10 +428,7 @@
       <span class="chip"><span class="pts-tag">0</span> <b>Falla</b></span>
     </div>
     <div id="leaderboard"></div>
-  </section>
-
-  <section class="panel" id="panel-fases">
-    <div id="fasesBox"></div>
+    <div id="fasesBox" style="margin-top:22px"></div>
   </section>
 
   <section class="panel" id="panel-pronosticos">
@@ -432,16 +461,6 @@
     <div class="card" id="apCard"></div>
   </section>
 
-  <section class="panel" id="panel-muro">
-    <div class="pick-who"><label for="who-mu">Soy:</label><select class="sel" id="who-mu"></select></div>
-    <div class="muro-box">
-      <input class="txt" id="mu-text" placeholder="Escribe tu comentario… 😏" maxlength="180" style="flex:1" />
-      <button class="btn" id="mu-send">Postear</button>
-    </div>
-    <div class="muro-emojis" id="muEmojis"></div>
-    <div id="muroList"></div>
-  </section>
-
   <section class="panel" id="panel-jugadores">
     <div class="card">
       <div class="section-head"><h2>Jugadores</h2><span class="count" id="player-count"></span></div>
@@ -454,7 +473,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: Fases · jun 2026 · #4</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #5</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
@@ -1155,7 +1174,8 @@ function phaseWinners(ph){if(phaseState(ph)!=="done")return [];
 function phaseCup(){const cnt={};data.participants.forEach(p=>cnt[p.id]=0);
   PHASES.forEach(ph=>phaseWinners(ph).forEach(w=>cnt[w.id]=(cnt[w.id]||0)+1));return cnt;}
 function renderFases(){const box=document.getElementById("fasesBox");if(!box)return;box.innerHTML="";
-  if(!data.participants.length){box.appendChild(emptyState("Todavía no hay jugadores","Agrega a la familia con el botón ➕ Jugador y empieza la competencia por fases."));return;}
+  if(!data.participants.length){return;}
+  box.appendChild(el("div","lb-head","🥇 Competencia por fases"));
   // Copa de Fases
   const cup=phaseCup();
   const cupRows=data.participants.map(p=>({p,n:cup[p.id]||0})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n||a.p.name.localeCompare(b.p.name));
@@ -1204,7 +1224,7 @@ function renderFases(){const box=document.getElementById("fasesBox");if(!box)ret
     box.appendChild(card);});
 }
 
-function renderAll(){renderLeaderboard();renderFases();renderPronosticos();renderResultados();renderGrupos();renderBracket();renderApuestas();renderMuro();renderJugadores();}
+function renderAll(){renderLeaderboard();renderFases();renderPronosticos();renderResultados();renderGrupos();renderBracket();renderApuestas();renderJugadores();}
 
 /* ===== events ===== */
 document.querySelectorAll(".tab").forEach(t=>{t.onclick=()=>{
@@ -1212,9 +1232,6 @@ document.querySelectorAll(".tab").forEach(t=>{t.onclick=()=>{
   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));document.getElementById("panel-"+t.dataset.tab).classList.add("active");};});
 document.getElementById("who").onchange=e=>{currentWho=e.target.value||null;whoSet(currentWho);renderPronosticos();};
 document.getElementById("who-ap").onchange=e=>{currentWho=e.target.value||null;whoSet(currentWho);renderApuestas();};
-document.getElementById("who-mu").onchange=e=>{currentWho=e.target.value||null;whoSet(currentWho);renderMuro();};
-document.getElementById("mu-send").onclick=()=>postMsg(document.getElementById("mu-text").value);
-document.getElementById("mu-text").onkeydown=e=>{if(e.key==="Enter")postMsg(e.target.value);};
 document.getElementById("addPlayer").onclick=addPlayer;
 document.getElementById("p-name").addEventListener("keydown",e=>{if(e.key==="Enter")addPlayer();});
 // botón flotante: lleva a la sección Jugadores para agregar uno cuando haga falta
