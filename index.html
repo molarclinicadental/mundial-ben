@@ -60,11 +60,12 @@
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh);overflow:hidden}
 
-  .phase-row{display:flex;gap:6px;margin-bottom:10px;background:var(--bg2);padding:4px;border-radius:12px}
-  .ph-btn{appearance:none;border:0;background:transparent;color:var(--muted);font-family:Outfit;font-weight:700;
-    font-size:13px;padding:9px 14px;border-radius:9px;cursor:pointer;flex:1;transition:.15s}
+  .phase-row{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+  .ph-btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-family:Outfit;font-weight:700;
+    font-size:13px;padding:9px 15px;border-radius:999px;cursor:pointer;white-space:nowrap;flex:0 0 auto;transition:.15s}
   .ph-btn:hover{color:var(--ink)}
-  .ph-btn[aria-current="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--sh-sm)}
+  .ph-btn[aria-current="true"]{background:linear-gradient(135deg,var(--green),var(--violet));color:#fff;border-color:transparent;box-shadow:0 8px 18px -10px rgba(62,99,221,.6)}
+  .kn-note{font-size:12px;color:var(--green2);background:var(--green-soft);border:1px solid #D5DDF8;border-radius:11px;padding:9px 12px;margin-bottom:12px;line-height:1.5}
   .round-nav{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 10px;margin-bottom:8px;scrollbar-width:thin}
   .rchip{flex:none;appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--muted);
     font-family:Inter;font-weight:600;font-size:12.5px;padding:8px 12px;border-radius:10px;cursor:pointer;white-space:nowrap;transition:.15s;box-shadow:var(--sh-sm)}
@@ -433,7 +434,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #6</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #7</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
@@ -551,9 +552,18 @@ let data=null, currentWho=null;
 const WHO_KEY="polla-who-benitez";
 function whoGet(){try{return localStorage.getItem(WHO_KEY)||null;}catch(e){return null;}}
 function whoSet(v){try{v?localStorage.setItem(WHO_KEY,v):localStorage.removeItem(WHO_KEY);}catch(e){}}
-let pron={phase:"grupos",group:"A",ko:"R32"};
-let res ={phase:"grupos",group:"A",ko:"R32"};
+let pron={phase:"grupos",group:"A"};
+let res ={phase:"grupos",group:"A"};
 const KO_ROUNDS = ROUNDS.filter(r=>!["J1","J2","J3"].includes(r.key));
+const PHASE_TABS=[
+  {key:"grupos",short:"Grupos",title:"Fase de grupos"},
+  {key:"R32",short:"Ronda de 32",title:"Ronda de 32"},
+  {key:"R16",short:"Octavos",title:"Octavos de final"},
+  {key:"QF",short:"Cuartos",title:"Cuartos de final"},
+  {key:"SF",short:"Semis",title:"Semifinales"},
+  {key:"FINAL",short:"Final",title:"Final y 3.º puesto"},
+];
+const ROUND2PHASE={R32:"R32",R16:"R16",QF:"QF",SF:"SF",F:"FINAL","3P":"FINAL"};
 
 /* ===== CONFIGURÁ TU BASE DE DATOS (SUPABASE) ACÁ ===== */
 const SUPABASE_URL  = "https://peinpkbocfhthxbsovht.supabase.co";   // ← URL de tu proyecto
@@ -725,12 +735,14 @@ function countdown(iso){let s=(Date.parse(iso)-Date.now())/1000;if(s<=0)return n
   if(d>0)return`faltan ${d} d ${h} h`;if(h>0)return`faltan ${h} h ${mi} min`;return`faltan ${mi} min`;}
 const byKick=(a,b)=>Date.parse(a.kickoff)-Date.parse(b.kickoff);
 function defaultView(){const up=getMatches().filter(m=>!isLocked(m)).sort(byKick);const m=up[0];
-  if(!m)return{phase:"elim",group:"A",ko:"F"};
-  return m.group?{phase:"grupos",group:m.group,ko:"R32"}:{phase:"elim",group:"A",ko:m.round};}
-function viewMatches(v){return v.phase==="grupos"
-  ? getMatches().filter(m=>m.group===v.group).sort(byKick)
-  : getMatches().filter(m=>m.round===v.ko).sort(byKick);}
-function viewTitle(v){return v.phase==="grupos"?("Grupo "+v.group):ROUND_LABEL[v.ko];}
+  if(!m)return{phase:"grupos",group:"A"};
+  return m.group?{phase:"grupos",group:m.group}:{phase:ROUND2PHASE[m.round]||"R32",group:"A"};}
+function viewMatches(v){
+  if(v.phase==="grupos")return getMatches().filter(m=>m.group===v.group).sort(byKick);
+  if(v.phase==="FINAL")return getMatches().filter(m=>m.round==="3P"||m.round==="F").sort(byKick);
+  return getMatches().filter(m=>m.round===v.phase).sort(byKick);}
+function viewTitle(v){if(v.phase==="grupos")return "Grupo "+v.group;
+  const t=PHASE_TABS.find(p=>p.key===v.phase);return t?t.title:"";}
 function matchEyebrow(m){const label=m.group?("Jornada "+m.round.slice(1)):(m.note||"");
   return `<span>${label}</span><span class="when">${fmtLocal(m.kickoff)}</span>`;}
 function emptyState(big,txt){const e=el("div","empty");e.appendChild(el("div","big",big));e.appendChild(el("p",null,txt));return e;}
@@ -751,16 +763,14 @@ function scoreInput(val,onChange,disabled){
 
 function renderNav(id,v,set){const c=document.getElementById(id);c.innerHTML="";
   const ph=el("div","phase-row");
-  [["grupos","Fase de grupos"],["elim","Eliminatorias"]].forEach(([k,lbl])=>{
-    const b=el("button","ph-btn",lbl);b.setAttribute("aria-current",v.phase===k?"true":"false");
-    b.onclick=()=>{v.phase=k;set();};ph.appendChild(b);});
+  PHASE_TABS.forEach(p=>{const b=el("button","ph-btn",p.short);b.setAttribute("aria-current",v.phase===p.key?"true":"false");
+    b.onclick=()=>{v.phase=p.key;set();};ph.appendChild(b);});
   c.appendChild(ph);
-  const chips=el("div","round-nav");
-  if(v.phase==="grupos"){GROUP_LETTERS.forEach(g=>{const b=el("button","rchip","Grupo "+g);
-    b.setAttribute("aria-current",v.group===g?"true":"false");b.onclick=()=>{v.group=g;set();};chips.appendChild(b);});}
-  else{KO_ROUNDS.forEach(r=>{const b=el("button","rchip",r.short);
-    b.setAttribute("aria-current",v.ko===r.key?"true":"false");b.onclick=()=>{v.ko=r.key;set();};chips.appendChild(b);});}
-  c.appendChild(chips);}
+  if(v.phase==="grupos"){const chips=el("div","round-nav");
+    GROUP_LETTERS.forEach(g=>{const b=el("button","rchip","Grupo "+g);
+      b.setAttribute("aria-current",v.group===g?"true":"false");b.onclick=()=>{v.group=g;set();};chips.appendChild(b);});
+    c.appendChild(chips);}
+}
 
 /* ===== helpers de fechas/posiciones ===== */
 function roundComplete(key){const ms=getMatches().filter(m=>m.round===key);return ms.length>0&&ms.every(m=>played(m));}
@@ -921,6 +931,7 @@ function renderPronosticos(){
   const upd=()=>{const done=ms.filter(m=>{const p=store[m.id];return p&&p.home!=null&&p.away!=null;}).length;
     const open=ms.filter(m=>!isLocked(m)).length;prog.innerHTML=`<b>${done}</b>/${ms.length} cargados · ${open} abiertos`;};
   upd();
+  if(v.phase!=="grupos")card.appendChild(el("div","kn-note","ℹ️ Los cruces de esta fase se arman solos con los resultados de la fase anterior. Apenas se conozcan los equipos, cargas acá tu marcador."));
   ms.forEach(m=>{const locked=isLocked(m);const row=el("div","match"+(locked?" locked":""));
     row.appendChild(el("div","eyebrow",matchEyebrow(m)));
     row.appendChild(teamLabel("home",m));
@@ -965,7 +976,7 @@ function renderResultados(){
   tg.onclick=()=>{data.config.autoSync=!on;save();renderResultados();if(!on)syncResults();};
   sb2.append(left,tg);card.appendChild(sb2);
   card.appendChild(el("div","syncnote","Completa el marcador <b>real</b> de los partidos terminados para armar la Tabla. No toca los pronósticos de la familia."));
-  const isKO=v.phase==="elim";
+  const isKO=v.phase!=="grupos";
   if(isKO)card.appendChild(el("div","banner","Los equipos se completan solos al cargar la ronda anterior. Si un cruce queda empatado, elige abajo quién pasó por penales."));
   const ms=viewMatches(v);
   ms.forEach(m=>{const row=el("div","match");
