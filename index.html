@@ -175,6 +175,22 @@
   table.mini td.pts{font-family:Gabarito;font-weight:800;color:var(--ink)}
 
   .player-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+  .pn-wrap{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .pn-name{font-weight:700;font-size:14px;color:var(--ink)}
+  .pn-pin{font-size:10.5px;font-weight:700}
+  .pn-pin.on{color:var(--qual)}.pn-pin.off{color:var(--coral)}
+  .pl-acts{display:flex;gap:7px;flex:none}
+  .add-note{font-size:11.5px;color:var(--muted);line-height:1.5;padding:10px 14px 13px}
+  .pin-gate{padding:26px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .pin-lock{font-size:34px;line-height:1}
+  .pin-ttl{font-family:Gabarito;font-weight:800;font-size:18px;color:var(--ink)}
+  .pin-sub{font-size:12.5px;color:var(--muted);max-width:300px;line-height:1.5;margin-bottom:6px}
+  .pin-row{display:flex;gap:8px;align-items:center}
+  .pin-in{width:120px;text-align:center;letter-spacing:.4em;font-size:18px;font-weight:700}
+  .pin-err{font-size:12px;color:var(--coral);font-weight:600;margin-top:2px}
+  .pin-status{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:var(--qual);padding:10px 13px;border-bottom:1px solid var(--line)}
+  .pin-lockbtn{appearance:none;border:1px solid var(--line2);background:var(--surface);color:var(--muted);border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;cursor:pointer}
+  .pin-lockbtn:hover{color:var(--ink)}
   .player-row:last-child{border-bottom:0}
   .pname{font-weight:600;font-size:15px;display:flex;align-items:center;gap:10px;color:var(--ink)}
   .avatar{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-family:Gabarito;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--green),var(--green2));flex:none}
@@ -497,14 +513,16 @@
       <div class="section-head"><h2>Jugadores</h2><span class="count" id="player-count"></span></div>
       <div id="playerList"></div>
       <div class="add-bar">
-        <input class="txt" id="p-name" placeholder="Nombre del jugador" style="flex:1" />
+        <input class="txt" id="p-name" placeholder="Nombre del jugador" style="flex:1;min-width:130px" />
+        <input class="txt" id="p-pin" placeholder="PIN (4 díg.)" inputmode="numeric" maxlength="4" autocomplete="off" style="width:110px" />
         <button class="btn" id="addPlayer">Agregar jugador</button>
       </div>
+      <div class="add-note">Cada jugador define un PIN de 4 números. Después, en Pronósticos y Apuestas, solo quien sepa ese PIN puede cargar o cambiar sus pronósticos.</div>
     </div>
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #18</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #19</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
@@ -622,6 +640,27 @@ let data=null, currentWho=null;
 const WHO_KEY="polla-who-benitez";
 function whoGet(){try{return localStorage.getItem(WHO_KEY)||null;}catch(e){return null;}}
 function whoSet(v){try{v?localStorage.setItem(WHO_KEY,v):localStorage.removeItem(WHO_KEY);}catch(e){}}
+const UNLOCK_KEY="polla-unlock-benitez";
+function hashPin(s){let h=5381;s=String(s);for(let i=0;i<s.length;i++)h=((h*33)^s.charCodeAt(i))>>>0;return "h"+h.toString(36);}
+let unlocked=(()=>{try{return JSON.parse(localStorage.getItem(UNLOCK_KEY)||"{}")||{};}catch(e){return {};}})();
+function saveUnlock(){try{localStorage.setItem(UNLOCK_KEY,JSON.stringify(unlocked));}catch(e){}}
+function pinOf(pid){const p=data.participants.find(x=>x.id===pid);return p&&p.pinHash;}
+function isUnlocked(pid){if(!pid)return false;if(!pinOf(pid))return true;return !!unlocked[pid];}
+function unlockPid(pid,pin){const ph=pinOf(pid);if(!ph)return true;if(hashPin(String(pin).trim())===ph){unlocked[pid]=true;saveUnlock();return true;}return false;}
+function lockPid(pid){delete unlocked[pid];saveUnlock();}
+function pinGate(pid,rerender){const p=data.participants.find(x=>x.id===pid);
+  const box=el("div","pin-gate");
+  box.appendChild(el("div","pin-lock","🔒"));
+  box.appendChild(el("div","pin-ttl","Pronósticos de "+(p?p.name:"")));
+  box.appendChild(el("div","pin-sub","Ingresá tu PIN de 4 dígitos para ver y cargar tus pronósticos. Solo vos podés editarlos."));
+  const row=el("div","pin-row");
+  const inp=el("input","txt pin-in");inp.type="password";inp.inputMode="numeric";inp.maxLength=4;inp.placeholder="••••";inp.autocomplete="off";
+  const btn=el("button","btn","Entrar");
+  const err=el("div","pin-err");err.style.display="none";err.textContent="PIN incorrecto. Probá de nuevo.";
+  const go=()=>{if(unlockPid(pid,inp.value)){rerender();}else{err.style.display="block";inp.value="";inp.focus();}};
+  btn.onclick=go;inp.onkeydown=e=>{if(e.key==="Enter")go();};
+  row.append(inp,btn);box.append(row,err);setTimeout(()=>{try{inp.focus();}catch(e){}},60);
+  return box;}
 let pron={phase:"grupos",group:"A"};
 let res ={phase:"grupos",group:"A"};
 const KO_ROUNDS = ROUNDS.filter(r=>!["J1","J2","J3"].includes(r.key));
@@ -1002,6 +1041,10 @@ function renderPronosticos(){
   const card=document.getElementById("predCard");card.innerHTML="";
   const prog=document.getElementById("pron-progress");
   if(!currentWho){prog.textContent="";card.appendChild(emptyState("Elige un jugador","Cuando haya jugadores, cada uno se elige arriba y carga su marcador."));return;}
+  if(pinOf(currentWho)&&!isUnlocked(currentWho)){prog.textContent="";card.appendChild(pinGate(currentWho,renderPronosticos));return;}
+  if(pinOf(currentWho)){const lk=el("div","pin-status");lk.innerHTML="🔓 Desbloqueado";
+    const b=el("button","pin-lockbtn","Bloquear");b.onclick=()=>{lockPid(currentWho);renderPronosticos();};
+    lk.appendChild(b);card.appendChild(lk);}
   const ms=viewMatches(v);
   data.predictions[currentWho]=data.predictions[currentWho]||{};const store=data.predictions[currentWho];
   const upd=()=>{const done=ms.filter(m=>{const p=store[m.id];return p&&p.home!=null&&p.away!=null;}).length;
@@ -1109,16 +1152,27 @@ function renderJugadores(){const list=document.getElementById("playerList");list
   document.getElementById("player-count").textContent=`${data.participants.length} jugadores`;
   if(data.participants.length===0){list.appendChild(emptyState("Sin jugadores","Agrega a los participantes. Cada uno carga sus pronósticos en la pestaña Pronósticos."));return;}
   data.participants.forEach(p=>{const row=el("div","player-row");const left=el("div","pname");
-    left.appendChild(el("div","avatar",initials(p.name)));left.appendChild(el("span",null,p.name));
-    const del=el("button","btn danger","Quitar");del.style.cssText="padding:7px 12px;font-size:12px";
+    left.appendChild(el("div","avatar",initials(p.name)));
+    const nmwrap=el("div","pn-wrap");nmwrap.appendChild(el("span","pn-name",p.name));
+    nmwrap.appendChild(el("span","pn-pin "+(p.pinHash?"on":"off"),p.pinHash?"🔒 con PIN":"🔓 sin PIN"));
+    left.appendChild(nmwrap);
+    const acts=el("div","pl-acts");
+    const pinBtn=el("button","btn ghost",p.pinHash?"Cambiar PIN":"Poner PIN");pinBtn.style.cssText="padding:7px 11px;font-size:12px";
+    pinBtn.onclick=()=>{
+      if(p.pinHash&&!unlocked[p.id]){const cur=prompt("PIN actual de "+p.name+":");if(cur==null)return;
+        if(hashPin((cur||"").trim())!==p.pinHash){alert("PIN incorrecto.");return;}unlocked[p.id]=true;saveUnlock();}
+      const np=prompt((p.pinHash?"Nuevo PIN":"PIN")+" de 4 números para "+p.name+":");if(np==null)return;
+      if(!/^\d{4}$/.test((np||"").trim())){alert("El PIN debe ser de 4 números.");return;}
+      p.pinHash=hashPin(np.trim());unlocked[p.id]=true;saveUnlock();save(true);renderAll();};
+    const del=el("button","btn danger","Quitar");del.style.cssText="padding:7px 11px;font-size:12px";
     del.onclick=()=>{if(!confirm("¿Quitar a "+p.name+" de la polla?"))return;
       data.participants=data.participants.filter(x=>x.id!==p.id);delete data.predictions[p.id];delete data.special[p.id];
-      if(currentWho===p.id){currentWho=null;whoSet(null);}save(true);renderAll();};
-    row.append(left,del);list.appendChild(row);});}
+      if(currentWho===p.id){currentWho=null;whoSet(null);}lockPid(p.id);save(true);renderAll();};
+    acts.append(pinBtn,del);row.append(left,acts);list.appendChild(row);});}
 
 /* ===== tick ===== */
 setInterval(()=>{const ae=document.activeElement;
-  if(ae&&ae.classList&&ae.classList.contains("score-input"))return;
+  if(ae&&ae.tagName==="INPUT")return;
   const a=document.querySelector(".panel.active");if(!a)return;
   if(a.id==="panel-pronosticos")renderPronosticos();else if(a.id==="panel-resultados")renderResultados();},30000);
 
@@ -1135,6 +1189,7 @@ function renderApuestas(){
   fillWho("who-ap");
   const card=document.getElementById("apCard");if(!card)return;card.innerHTML="";
   if(!data.participants.length){card.appendChild(emptyState("Todavía no hay jugadores","Agrega a la familia en Jugadores para cargar las apuestas especiales."));return;}
+  if(currentWho&&pinOf(currentWho)&&!isUnlocked(currentWho)){card.appendChild(pinGate(currentWho,renderApuestas));return;}
   const locked=specialLocked();
   const note=el("div","ap-note"+(locked?" lock":""));
   note.innerHTML=locked?"🔒 Las apuestas especiales están cerradas (ya arrancó el Mundial).":
@@ -1287,10 +1342,16 @@ function goTab(name){document.querySelectorAll(".tab").forEach(x=>x.setAttribute
   const pn=document.getElementById("panel-"+name);if(pn)pn.classList.add("active");}
 document.getElementById("fabAdd").onclick=()=>{goTab("jugadores");
   const i=document.getElementById("p-name");if(i){i.scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>i.focus(),140);}};
-function addPlayerByName(name){const n=(name||"").trim();if(!n)return null;
-  const pid="p"+Math.random().toString(36).slice(2,8);data.participants.push({id:pid,name:n});data.predictions[pid]={};
+function addPlayerByName(name,pin){const n=(name||"").trim();if(!n)return null;
+  const pid="p"+Math.random().toString(36).slice(2,8);const rec={id:pid,name:n};
+  const ps=(pin||"").trim();if(/^\d{4}$/.test(ps)){rec.pinHash=hashPin(ps);unlocked[pid]=true;saveUnlock();}
+  data.participants.push(rec);data.predictions[pid]={};
   if(!currentWho){currentWho=pid;whoSet(currentWho);}save();renderAll();return pid;}
-function addPlayer(){const inp=document.getElementById("p-name");if(addPlayerByName(inp.value)){inp.value="";inp.focus();}}
+function addPlayer(){const inp=document.getElementById("p-name");const pinp=document.getElementById("p-pin");
+  const name=(inp.value||"").trim();const pin=(pinp?pinp.value:"").trim();
+  if(!name){inp.focus();return;}
+  if(!/^\d{4}$/.test(pin)){alert("Ponle un PIN de 4 números a "+name+", así solo esa persona podrá editar sus pronósticos.");if(pinp)pinp.focus();return;}
+  if(addPlayerByName(name,pin)){inp.value="";if(pinp)pinp.value="";inp.focus();}}
 document.getElementById("resetBtn").onclick=async()=>{
   if(!confirm("¿Borrar jugadores, pronósticos y resultados? Los 104 partidos del Mundial se mantienen. Esto afecta a todos."))return;
   data=emptyData();currentWho=null;pron=defaultView();res={...pron};await save(true);renderAll();};
