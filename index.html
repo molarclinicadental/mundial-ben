@@ -265,6 +265,14 @@
   .soon-more{font-size:11px;color:var(--muted);margin-top:8px;text-align:center}
   .match.flash{animation:flashpulse 1.6s ease}
   @keyframes flashpulse{0%,100%{box-shadow:var(--sh-sm)}25%{box-shadow:0 0 0 3px rgba(244,180,0,.55)}}
+  /* ===== recordatorio ===== */
+  .remind-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:2px 0 14px}
+  .remind-hint{font-size:11.5px;color:var(--muted);flex:1;min-width:170px;line-height:1.45}
+  .remind-box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:16px;backdrop-filter:blur(9px) saturate(118%)}
+  .remind-ta{width:100%;box-sizing:border-box;border:1px solid var(--line2);border-radius:11px;padding:11px 12px;
+    font-family:'Noto Sans',sans-serif;font-size:12.5px;line-height:1.55;color:var(--ink);background:#fff;resize:vertical}
+  .remind-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+  .remind-note{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.45}
   .player-row:last-child{border-bottom:0}
   .pname{font-weight:600;font-size:15px;display:flex;align-items:center;gap:10px;color:var(--ink)}
   .avatar{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-family:Gabarito;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--green),var(--green2));flex:none}
@@ -549,6 +557,11 @@
       <span class="chip"><span class="pts-tag">0</span> <b>Falla</b></span>
     </div>
     <div class="score-note">Los aciertos <b>valen más en cada fase</b>: Grupos ×1 · Ronda de 32 ×2 · Octavos ×3 · Cuartos ×4 · Semis ×5 · Final ×6. Ganar una fase suma <b>+5</b> al total. 🏆 <b>Campeón = mayor acumulado al final del Mundial.</b></div>
+    <div class="remind-bar">
+      <button class="btn" id="remindBtn">📤 Enviar recordatorio</button>
+      <span class="remind-hint">Arma un mensaje con la tabla, los partidos por cerrarse y los aciertos, listo para WhatsApp.</span>
+    </div>
+    <div class="remind-box" id="remindBox" hidden></div>
     <div id="leaderboard"></div>
     <div id="fasesBox" style="margin-top:22px"></div>
   </section>
@@ -671,7 +684,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #22</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #23</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
@@ -988,6 +1001,49 @@ function standings(){const ms=getMatches();const info=specialInfo();const cup=ph
     total+=bonus+faseBonus;
     return {...p,total,exact,acierto,jug,bonus,fases,faseBonus};})
     .sort((a,b)=>b.total-a.total||b.exact-a.exact||b.acierto-a.acierto||a.name.localeCompare(b.name));}
+
+/* ===== recordatorio para la familia ===== */
+function recentExacts(){
+  const ms=getMatches().filter(m=>played(m)).sort((a,b)=>Date.parse(b.kickoff)-Date.parse(a.kickoff)).slice(0,6);
+  const out=[];
+  ms.forEach(m=>data.participants.forEach(p=>{
+    if(ptsFor(data.predictions[p.id]?.[m.id],m)===data.config.ptsExact)out.push({name:p.name,m});}));
+  return out;
+}
+function buildReminder(){
+  const url=location.href.split("#")[0];
+  const L=["⚽ *Polla Mundialista · Flia Benítez*",""];
+  const st=standings();
+  if(st.length){L.push("📊 *Tabla*");const md=["🥇","🥈","🥉"];
+    st.slice(0,8).forEach((p,i)=>L.push((md[i]||(i+1)+".")+" "+p.name+" — "+p.total+" pts"));L.push("");}
+  const soon=closingSoon(48);
+  if(soon.length){L.push("⏳ *Cierran pronto — ¡carga tus pronósticos!*");
+    soon.slice(0,8).forEach(m=>L.push("• "+m.home+" vs "+m.away+" — cierra "+(countdownTo(Date.parse(m.kickoff)-LOCK_MS)||"pronto")));L.push("");}
+  const ex=recentExacts();
+  if(ex.length){L.push("🎯 *¡Aciertos exactos!*");
+    ex.slice(0,8).forEach(e=>L.push("• "+e.name+" le acertó al "+e.m.realHome+"-"+e.m.realAway+" ("+e.m.home+" vs "+e.m.away+")"));L.push("");}
+  if(!soon.length&&!ex.length&&st.every(p=>!p.total)) L.push("Aún no arranca la acción. ¡Carguen sus pronósticos! 🙌","");
+  L.push("👉 Entra y juega: "+url);
+  return L.join("\n");
+}
+function openReminder(){
+  const box=document.getElementById("remindBox");if(!box)return;
+  if(!box.hidden){box.hidden=true;box.innerHTML="";return;}
+  const txt=buildReminder();
+  box.hidden=false;box.innerHTML="";
+  const ta=el("textarea","remind-ta");ta.value=txt;ta.rows=Math.min(18,txt.split("\n").length+1);
+  const acts=el("div","remind-acts");
+  const wa=el("button","btn","📱 Enviar por WhatsApp");
+  wa.onclick=()=>window.open("https://wa.me/?text="+encodeURIComponent(ta.value),"_blank");
+  const cp=el("button","btn ghost","📋 Copiar");
+  cp.onclick=async()=>{try{await navigator.clipboard.writeText(ta.value);toast("Mensaje copiado ✓");}
+    catch(e){ta.focus();ta.select();try{document.execCommand("copy");toast("Mensaje copiado ✓");}catch(_){}}};
+  acts.append(wa,cp);
+  if(navigator.share){const sh=el("button","btn ghost","Compartir…");
+    sh.onclick=()=>navigator.share({text:ta.value}).catch(()=>{});acts.appendChild(sh);}
+  const hint=el("div","remind-note","Puedes editar el texto antes de enviarlo. Los *asteriscos* se ven en negrita en WhatsApp.");
+  box.append(ta,acts,hint);
+}
 
 /* ===== helpers ===== */
 const el=(t,c,html)=>{const e=document.createElement(t);if(c)e.className=c;if(html!=null)e.innerHTML=html;return e;};
@@ -1513,6 +1569,7 @@ document.querySelectorAll(".tab").forEach(t=>{t.onclick=()=>{
 document.getElementById("who").onchange=e=>{currentWho=e.target.value||null;whoSet(currentWho);renderPronosticos();};
 document.getElementById("who-ap").onchange=e=>{currentWho=e.target.value||null;whoSet(currentWho);renderApuestas();};
 document.getElementById("addPlayer").onclick=addPlayer;
+document.getElementById("remindBtn").onclick=openReminder;
 document.getElementById("p-name").addEventListener("keydown",e=>{if(e.key==="Enter")addPlayer();});
 // botón flotante: lleva a la sección Jugadores para agregar uno cuando haga falta
 function goTab(name){document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x.dataset.tab===name?"true":"false"));
