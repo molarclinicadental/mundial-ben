@@ -684,7 +684,7 @@
   </section>
 
   <footer class="foot">
-    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #23</span></span>
+    <span>Datos guardados y compartidos: todos los que abren este tablero ven lo mismo. <span class="ver">versión: jun 2026 · #24</span></span>
     <button class="btn ghost" id="resetBtn" hidden>Reiniciar todo</button>
   </footer>
 </div>
@@ -742,7 +742,7 @@ const normTeam=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f
 const ENG2ISO={}; for(const iso in ENG2ISO_RAW)ENG2ISO_RAW[iso].forEach(v=>ENG2ISO[v]=iso);
 const eng2iso=name=>ENG2ISO[normTeam(name)]||null;
 // fuente de resultados (CORS abierto, sin clave). Liga 4429 = Copa del Mundo FIFA.
-const SYNC_URL="https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4429&s=2026";
+const SYNC_URL="https://www.thesportsdb.com/api/v1/json/123/eventsseason.php?id=4429&s=2026";
 let lastSync=0, syncMsg="";
 // apuestas especiales
 const SPECIAL_PTS={champion:15,runnerup:8,scorer:10};
@@ -847,7 +847,7 @@ const dot=document.getElementById("dot"), saveTxt=document.getElementById("saveT
 function flashSaving(){dot.classList.add("saving");saveTxt.textContent="Guardando…";}
 function showSaved(t){dot.classList.remove("saving");saveTxt.textContent=t;}
 function emptyData(){return{participants:[],predictions:{},results:{},teamOverrides:{},special:{},messages:[],config:{...CFG}};}
-function normalize(){data.predictions=data.predictions||{};data.results=data.results||{};data.teamOverrides=data.teamOverrides||{};data.special=data.special||{};data.messages=data.messages||[];data.config=data.config||{...CFG};}
+function normalize(){data.predictions=data.predictions||{};data.results=data.results||{};data.teamOverrides=data.teamOverrides||{};data.special=data.special||{};data.messages=data.messages||[];data.config=data.config||{...CFG};if(data.config.autoSync===undefined)data.config.autoSync=true;}
 
 // merge con preferencia local (no pisa cambios de otros en otras claves)
 function mergeData(remote, local){
@@ -1327,7 +1327,9 @@ function renderResultados(){
   const left=el("div","syncl",`🔄 Resultados automáticos${on&&syncMsg?` · <span class="syncm">${syncMsg}${lastSync?" "+new Date(lastSync).toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}):""}</span>`:""}`);
   const tg=el("button","toggle"+(on?" on":""),on?"Activado":"Desactivado");
   tg.onclick=()=>{data.config.autoSync=!on;save();renderResultados();if(!on)syncResults();};
-  sb2.append(left,tg);card.appendChild(sb2);
+  const rf=el("button","btn sm","↻ Actualizar ahora");
+  rf.onclick=()=>{syncMsg="buscando…";renderResultados();syncResults();};
+  sb2.append(left,rf,tg);card.appendChild(sb2);
   card.appendChild(el("div","syncnote","Completa el marcador <b>real</b> de los partidos terminados para armar la Tabla. No toca los pronósticos de la familia."));
   const isKO=v.phase!=="grupos";
   if(isKO)card.appendChild(el("div","banner","Los equipos se completan solos al cargar la ronda anterior. Si un cruce queda empatado, elige abajo quién pasó por penales."));
@@ -1600,6 +1602,6 @@ window.addEventListener("hashchange",maybeShowReset);maybeShowReset();
   const savedWho=whoGet(); if(savedWho && data.participants.find(p=>p.id===savedWho)) currentWho=savedWho;
   pron=defaultView();res={...pron};saveTxt.textContent="Guardado · compartido";renderAll();
   if(data.config&&data.config.autoSync)syncResults();
-  setInterval(()=>{if(data&&data.config&&data.config.autoSync&&!busy)syncResults();},600000);
+  setInterval(()=>{if(data&&data.config&&data.config.autoSync&&!busy)syncResults();},300000);
 })();
 </script>
